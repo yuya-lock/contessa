@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  api:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    restart: always
+    volumes:
+      - ./backend:/go/src/app
+    depends_on:
+      - database
+    tty: true
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    restart: always
+    depends_on:
+      - api
+    tty: true
+
+  database:
+    image: mysql:8.0.28
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    ports:
+      - "3306:3306"
+    restart: always
+    volumes:
+      - ./database/data:/var/lib/mysql
+      - ./database/conf.d/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./database/initdb.d:/docker-entrypoint-initdb.d
+    env_file:
+      - ./database/.env
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    restart: always
+    volumes:
+      - ./frontend:/app
+    tty: true
+    command: npm run dev
