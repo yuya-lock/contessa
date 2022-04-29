@@ -128,6 +128,7 @@
                                 outlined
                                 color="primary"
                                 class="ml-4"
+                                disabled
                             >クリア</v-btn>
                         </v-row>
                     </v-card>
@@ -142,7 +143,14 @@
                     :key="cocktail.cocktail_id"
                 >
                     <v-card-subtitle>{{ cocktail.cocktail_digest }}</v-card-subtitle>
-                    <v-card-title>{{ cocktail.cocktail_name }}</v-card-title>
+                    <v-card-title @click="cocktailDetail(cocktail.cocktail_id)">
+                        <nuxt-link
+                            :to="'/' + cocktail.cocktail_id"
+                            class="grey--text text--darken-3"
+                        >
+                            {{ cocktail.cocktail_name }}
+                        </nuxt-link>
+                    </v-card-title>
                     <v-card-subtitle>{{ cocktail.cocktail_name_english }}</v-card-subtitle>
                     <v-card-text>
                         <v-row
@@ -160,10 +168,7 @@
                             <div class="grey--text ms-4">
                                 4.5 (413)
                             </div>
-                        </v-row
-                            align="center"
-                            class="mx-0 py-3"
-                        >
+                        </v-row>
                         <v-row>
                             <v-chip
                                 class="ma-2"
@@ -416,6 +421,9 @@ export default {
             this.inputs = JSON.parse(JSON.stringify(this.temporaryInputs))
             this.$store.commit("setPage")
             this.$store.dispatch("fetchCocktails");
+        },
+        cocktailDetail(cocktail_id) {
+            this.$store.dispatch("fetchCocktailDetail", cocktail_id)
         },
         reset() {
             this.initializeInputs()
