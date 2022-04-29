@@ -1,22 +1,20 @@
 package main
 
 import (
-	"contessa/backend/lib"
-
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 )
 
+func init() {
+	logrus.SetLevel(logrus.DebugLevel)
+	logrus.SetFormatter(&logrus.JSONFormatter{})
+}
+
 func main() {
-	lib.LoadEnv()
-
-	if err := lib.LoadEnv(); err != nil {
-		logrus.Fatal("failed to load .env")
-	}
-
 	e := echo.New()
 	e.GET("/", index)
-	e.GET("/largearea", getLargeArea)
+	e.GET("/cocktails", fetchCocktails)
+	e.GET("/cocktails/:id", fetchCocktailDetail)
 
 	e.Logger.Fatal(e.Start(":8000"))
 }

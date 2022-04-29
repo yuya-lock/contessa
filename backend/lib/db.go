@@ -16,3 +16,5 @@ func main() {
 
 	db.Create(&User{Name: "test", Email: "test@test.com"})
 }
+
+
