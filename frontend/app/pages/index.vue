@@ -138,19 +138,96 @@
                     class="my-3"
                     elevation="0"
                     outlined
+                    v-for="cocktail in cocktails"
+                    :key="cocktail.cocktail_id"
                 >
-                    <div class="text-center">
-                        <v-pagination
-                            v-model="page"
-                            class="my-4"
-                            :length="total_pages"
-                            @input="changePage"
-                            :value="current_page"
-                            total-visible="7"
-                            circle
-                        ></v-pagination>
-                    </div>
+                    <v-card-subtitle>{{ cocktail.cocktail_digest }}</v-card-subtitle>
+                    <v-card-title>{{ cocktail.cocktail_name }}</v-card-title>
+                    <v-card-subtitle>{{ cocktail.cocktail_name_english }}</v-card-subtitle>
+                    <v-card-text>
+                        <v-row
+                            align="center"
+                            class="mx-0 pb-3"
+                        >
+                            <v-rating
+                                :value="4.5"
+                                color="amber"
+                                dense
+                                half-increments
+                                readonly
+                                size="14"
+                            ></v-rating>
+                            <div class="grey--text ms-4">
+                                4.5 (413)
+                            </div>
+                        </v-row
+                            align="center"
+                            class="mx-0 py-3"
+                        >
+                        <v-row>
+                            <v-chip
+                                class="ma-2"
+                                color="blue darken-1"
+                                outlined
+                            >
+                                #{{cocktail.base_name}}
+                            </v-chip>
+                            <v-chip
+                                class="ma-2"
+                                color="blue darken-1"
+                                outlined
+                            >
+                                #{{cocktail.alcohol}}%
+                            </v-chip>
+                            <v-chip
+                                class="ma-2"
+                                color="blue-grey lighten-2"
+                                outlined
+                            >
+                                #{{cocktail.glass_name}}
+                            </v-chip>
+                            <v-chip
+                                class="ma-2"
+                                color="blue-grey lighten-2"
+                                outlined
+                            >
+                                #{{cocktail.taste_name}}
+                            </v-chip>
+                            <v-chip
+                                class="ma-2"
+                                color="blue-grey lighten-2"
+                                outlined
+                            >
+                                #{{cocktail.technique_name}}
+                            </v-chip>
+                            <v-chip
+                                class="ma-2"
+                                color="blue-grey lighten-2"
+                                outlined
+                            >
+                                #{{cocktail.style_name}}
+                            </v-chip>
+                            <v-chip
+                                class="ma-2"
+                                color="blue-grey lighten-2"
+                                outlined
+                            >
+                                #{{cocktail.top_name}}
+                            </v-chip>
+                        </v-row>
+                    </v-card-text>
                 </v-card>
+                <div class="text-center">
+                    <v-pagination
+                        v-model="page"
+                        class="my-4"
+                        :length="total_pages"
+                        @input="changePage"
+                        :value="current_page"
+                        total-visible="7"
+                        circle
+                    ></v-pagination>
+                </div>
             </v-col>
         </v-row>
     </div>
