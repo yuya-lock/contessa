@@ -16,6 +16,7 @@ export default () => (new Vuex.Store({
         page: 1,
         limit: 10,
         cocktails: [],
+        cocktail_detail: [],
     },
     getters: {
         total_pages: (state) => state.total_pages,
@@ -32,6 +33,7 @@ export default () => (new Vuex.Store({
         page: (state) => state.page,
         limit: (state) => state.limit,
         cocktails: (state) => state.cocktails,
+        cocktail_detail: (state) => state.cocktail_detail,
     },
     mutations: {
         setTotalPages(state, total_pages) {
@@ -76,6 +78,9 @@ export default () => (new Vuex.Store({
         setCocktails(state, cocktails) {
             state.cocktails = cocktails
         },
+        setCocktailDetail(state, cocktail_detail) {
+            state.cocktail_detail = cocktail_detail
+        },
     },
     actions: {
         async fetchCocktails(context) {
@@ -99,8 +104,14 @@ export default () => (new Vuex.Store({
             context.commit("setCocktails", parsedResponse.cocktails)
             context.commit("setTotalPages", parsedResponse.total_pages)
             context.commit("setCurrentPage", parsedResponse.current_page)
-            console.log(parsedResponse.cocktails)
-            console.log(parsedResponse.current_page)
+        },
+        async fetchCocktailDetail(context, cocktail_id) {
+            const response = await this.$axios.$get('/cocktails/' + cocktail_id).catch(err => {
+                return err.response
+            })
+            var parsedResponse = JSON.parse(response)
+            context.commit("setCocktailDetail", parsedResponse.cocktail)
+            console.log(parsedResponse.cocktail)
         }
     }
 }))
