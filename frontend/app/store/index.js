@@ -14,7 +14,7 @@ export default () => (new Vuex.Store({
         top: "",
         glass: "",
         page: 1,
-        limit: 20,
+        limit: 10,
         cocktails: [],
     },
     getters: {
