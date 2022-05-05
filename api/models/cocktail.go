@@ -1,13 +1,7 @@
-package main
-
-import (
-	"fmt"
-	"github.com/dgrijalva/jwt-go"
-	"unicode/utf8"
-)
+package models
 
 type (
-	GetCocktailsInput struct {
+	CocktailsInput struct {
 		Word        string `query:"word"`
 		Base        string `query:"base"`
 		Technique   string `query:"technique"`
@@ -18,21 +12,6 @@ type (
 		Top         string `query:"top"`
 		Page        string `query:"page"`
 		Limit       string `query:"limit"`
-	}
-
-	UserInput struct {
-		ID       uint   `json:"id" form:"id" query:"id"`
-		Name     string `json:"name" form:"name" query:"name" gorm:"unique"`
-		Password []byte `json:"password" form:"password" query:"password"`
-		Age      string `json:"age" form:"age" query:"age"`
-		Job      string `json:"job" form:"job" query:"job"`
-		Sex      string `json:"sex" form:"sex" query:"sex"`
-	}
-
-	jwtCustomClaims struct {
-		UID  uint   `json:"uid"`
-		Name string `json:"name"`
-		jwt.StandardClaims
 	}
 
 	// GetCocktailsOutputItemRecipes struct {
@@ -67,10 +46,3 @@ type (
 	// 	Current_page  uint                     `json:"current_page"`
 	// }
 )
-
-func (input *GetCocktailsInput) validator() error {
-	if utf8.RuneCountInString(input.Word) > 20 {
-		return fmt.Errorf("Character count exceeds the limit of 20 characters\n")
-	}
-	return nil
-}

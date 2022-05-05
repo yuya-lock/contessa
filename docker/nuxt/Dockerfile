@@ -5,7 +5,7 @@ RUN apk update && \
     npm install -g create-nuxt-app
 
 WORKDIR /app
-COPY . .
+COPY ./ui .
 
 ENV HOST 0.0.0.0
 EXPOSE 3000

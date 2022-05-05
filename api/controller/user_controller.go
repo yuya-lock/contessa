@@ -1,93 +1,13 @@
-package main
+package controller
 
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
-	"github.com/yuya-lock/contessa/backend/lib"
+	"github.com/yuya-lock/contessa/api/database"
+	"github.com/yuya-lock/contessa/api/models"
 	"golang.org/x/crypto/bcrypt"
-	"io/ioutil"
 	"net/http"
-	"time"
 )
-
-func index(c echo.Context) error {
-	return c.String(http.StatusOK, "OK")
-}
-
-func fetchCocktails(c echo.Context) error {
-	logrus.Info("Get cocktails")
-
-	input := new(GetCocktailsInput)
-	if err := c.Bind(input); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
-	}
-	if err := input.validator(); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
-	}
-
-	req, err := http.NewRequest("GET", COCKTAILS_API_URL, nil)
-	if err != nil {
-		logrus.Fatal(err)
-	}
-
-	q := req.URL.Query()
-	q.Add("word", input.Word)
-	q.Add("base", input.Base)
-	q.Add("technique", input.Technique)
-	q.Add("taste", input.Taste)
-	q.Add("style", input.Style)
-	q.Add("alcohol_from", input.AlcoholFrom)
-	q.Add("alcohol_to", input.AlcoholTo)
-	q.Add("top", input.Top)
-	q.Add("page", input.Page)
-	q.Add("limit", input.Limit)
-	req.URL.RawQuery = q.Encode()
-
-	timeout := time.Duration(5 * time.Second)
-	client := &http.Client{
-		Timeout: timeout,
-	}
-
-	resp, err := client.Do(req)
-	if err != nil {
-		logrus.Fatal(err)
-	}
-
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		logrus.Fatalf("ioutil.ReadAll err=%s", err.Error())
-	}
-
-	return c.JSON(http.StatusOK, string(body))
-}
-
-func fetchCocktailDetail(c echo.Context) error {
-	id := c.Param("id")
-	endpoint := COCKTAILS_API_URL + "/" + id
-
-	req, err := http.NewRequest("GET", endpoint, nil)
-	if err != nil {
-		logrus.Fatal(err)
-	}
-
-	timeout := time.Duration(5 * time.Second)
-	client := &http.Client{
-		Timeout: timeout,
-	}
-
-	resp, err := client.Do(req)
-	if err != nil {
-		logrus.Fatal(err)
-	}
-	defer resp.Body.Close()
-
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		logrus.Fatal(err)
-	}
-
-	return c.JSON(http.StatusOK, string(body))
-}
 
 //var signingKey = []byte("secret")
 
@@ -99,20 +19,20 @@ func fetchCocktailDetail(c echo.Context) error {
 func Register(c echo.Context) error {
 	logrus.Info("Regist User")
 
-	u := new(UserInput)
+	u := new(models.User)
 	if err := c.Bind(u); err != nil {
 		return nil
 	}
 
-	db, sqlDB, err := lib.Connect()
+	db, sqlDB, err := database.Connect()
 	if err != nil {
 		return c.String(http.StatusServiceUnavailable, "")
 	}
 	defer sqlDB.Close()
-	lib.InitDB()
+	database.InitDB()
 
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(u.Password), 12)
-	user := lib.User{
+	user := models.User{
 		Name:     u.Name,
 		Password: hashedPassword,
 		Job:      u.Job,
