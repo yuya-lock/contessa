@@ -239,6 +239,8 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations, mapActions } from "vuex"
+
 export default {
     data() {
         return {
@@ -305,6 +307,7 @@ export default {
         }
     },
     computed: {
+        ...mapGetters(["cocktails", "total_pages", "current_page"]),
         word: {
             get() {
                 return this.$store.getters.word
@@ -385,19 +388,10 @@ export default {
                 this.$store.commit("setPage", value)
             }
         },
-        cocktails() {
-            return this.$store.getters.cocktails
-        },
-        total_pages() {
-            return this.$store.getters.total_pages
-        },
-        current_page() {
-            return this.$store.getters.current_page
-        }
     },
     methods: {
         initializeInputs() {
-            let defaulInputs = {
+            let defaultInputs = {
                 word: "",
                 base: "",
                 technique: "",

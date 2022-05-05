@@ -111,11 +111,13 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
+
 export default {
     computed: {
-        cocktail() {
-            return this.$store.getters.cocktail_detail
-        }
+        ...mapGetters({
+            cocktail: "cocktail_detail"
+        }),
     }
 }
 </script>
