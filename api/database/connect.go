@@ -1,10 +1,12 @@
-package lib
+package database
 
 import (
 	"database/sql"
 	"fmt"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
+	"github.com/yuya-lock/contessa/api/conf"
+	"github.com/yuya-lock/contessa/api/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -24,7 +26,7 @@ func Connect() (*gorm.DB, *sql.DB, error) {
 
 	dsn := fmt.Sprintf(
 		"%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-		user, password, host, DBPORT, DBNAME,
+		user, password, host, conf.DBPORT, conf.DBNAME,
 	)
 	gormLogger := logger.New(
 		log.New(os.Stdout, "\r\n", log.LstdFlags),
@@ -42,7 +44,7 @@ func Connect() (*gorm.DB, *sql.DB, error) {
 		return nil, nil, fmt.Errorf("Error when connecting to database.\n%s", err)
 	}
 	logrus.Info("Database connection succeeded.")
-	logrus.Info(fmt.Sprintf("User: %s, Host: %s, Database: %s", user, host, DBNAME))
+	logrus.Info(fmt.Sprintf("User: %s, Host: %s, Database: %s", user, host, conf.DBNAME))
 	sqlDB, err := db.DB()
 	if err != nil {
 		return nil, nil, err
@@ -58,7 +60,7 @@ func InitDB() error {
 		return fmt.Errorf("error occured when initializing DB")
 	}
 	defer sqlDB.Close()
-	err = db.AutoMigrate(&User{})
+	err = db.AutoMigrate(&models.User{})
 	if err != nil {
 		return fmt.Errorf("error occured when migrating database\n%s", err)
 	}
