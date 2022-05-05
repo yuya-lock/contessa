@@ -14,35 +14,67 @@ type (
 		Limit       string `query:"limit"`
 	}
 
-	// GetCocktailsOutputItemRecipes struct {
-	// 	Ingredient_id   uint   `json:"ingredient_id"`
-	// 	Ingredient_name string `json:"ingredient_name"`
-	// 	Amount          string `json:"amount"`
-	// 	Unit            string `json:"unit"`
-	// }
+	CocktailsRecipesOutput struct {
+		IngredientId   uint   `json:"ingredient_id"`
+		IngredientName string `json:"ingredient_name"`
+		Amount         string `json:"amount"`
+		Unit           string `json:"unit"`
+	}
 
-	// GetCocktailsOutputItem struct {
-	// 	Cocktail_id           uint                            `json:"cocktail_id"`
-	// 	Cocktail_name         string                          `json:"cocktail_name"`
-	// 	Cocktail_name_english string                          `json:"cocktail_name_english"`
-	// 	Base_name             string                          `json:"base_name"`
-	// 	Technique_name        string                          `json:"technique_name"`
-	// 	Taste_name            string                          `json:"taste_name"`
-	// 	Style_name            string                          `json:"style_name"`
-	// 	Alcohol               uint                            `json:"alcohol"`
-	// 	Top_name              string                          `json:"top_name"`
-	// 	Glass_name            string                          `json:"glass_name"`
-	// 	Type_name             string                          `json:"type_name"`
-	// 	Cocktail_digest       string                          `json:"cocktail_digest"`
-	// 	Cocktail_desc         string                          `json:"cocktail_desc"`
-	// 	Recipe_desc           string                          `json:"recipe_desc"`
-	// 	Recipes               []GetCocktailsOutputItemRecipes `json:"recipes"`
-	// }
+	CocktailsInfoOutput struct {
+		CocktailId          uint                     `json:"cocktail_id"`
+		CocktailName        string                   `json:"cocktail_name"`
+		CocktailNameEnglish string                   `json:"cocktail_name_english"`
+		BaseName            string                   `json:"base_name"`
+		TechniqueName       string                   `json:"technique_name"`
+		TasteName           string                   `json:"taste_name"`
+		StyleName           string                   `json:"style_name"`
+		Alcohol             uint                     `json:"alcohol"`
+		TopName             string                   `json:"top_name"`
+		GlassName           string                   `json:"glass_name"`
+		TypeName            string                   `json:"type_name"`
+		CocktailDigest      string                   `json:"cocktail_digest"`
+		CocktailDesc        string                   `json:"cocktail_desc"`
+		RecipeDesc          string                   `json:"recipe_desc"`
+		Recipes             []CocktailsRecipesOutput `json:"recipes"`
+	}
 
-	// GetCocktailsOutput struct {
-	// 	Cocktails     []GetCocktailsOutputItem `json:"cocktails"`
-	// 	Status        string                   `json:"status"`
-	// 	Total_pages   uint                     `json:"total_pages"`
-	// 	Current_page  uint                     `json:"current_page"`
-	// }
+	CocktailsOutput struct {
+		Cocktails   []CocktailsInfoOutput `json:"cocktails"`
+		Status      string                `json:"status"`
+		TotalPages  uint                  `json:"total_pages"`
+		CurrentPage uint                  `json:"current_page"`
+	}
+
+	CocktailDetailRecipesOutput struct {
+		IngredientId   uint   `json:"ingredient_id"`
+		IngredientName string `json:"ingredient_name"`
+		Amount         string `json:"amount"`
+		Unit           string `json:"unit"`
+	}
+
+	CocktailDetailInfoOutput struct {
+		CocktailId          uint                          `json:"cocktail_id"`
+		CocktailName        string                        `json:"cocktail_name"`
+		CocktailNameEnglish string                        `json:"cocktail_name_english"`
+		BaseName            string                        `json:"base_name"`
+		TechniqueName       string                        `json:"technique_name"`
+		TasteName           string                        `json:"taste_name"`
+		StyleName           string                        `json:"style_name"`
+		Alcohol             uint                          `json:"alcohol"`
+		TopName             string                        `json:"top_name"`
+		GlassName           string                        `json:"glass_name"`
+		TypeName            string                        `json:"type_name"`
+		CocktailDigest      string                        `json:"cocktail_digest"`
+		CocktailDesc        string                        `json:"cocktail_desc"`
+		RecipeDesc          string                        `json:"recipe_desc"`
+		Recipes             []CocktailDetailRecipesOutput `json:"recipes"`
+	}
+
+	CocktailDetailOutput struct {
+		Cocktail    []CocktailDetailInfoOutput `json:"cocktail"`
+		Status      string                     `json:"status"`
+		TotalPages  uint                       `json:"total_pages"`
+		CurrentPage uint                       `json:"current_page"`
+	}
 )

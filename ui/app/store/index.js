@@ -100,10 +100,9 @@ export const actions = {
         const response = await this.$axios.$get('/cocktails', { params }).catch(err => {
             return err.response
         })
-        const parsedResponse = JSON.parse(response)
-        context.commit("setCocktails", parsedResponse.cocktails)
-        context.commit("setTotalPages", parsedResponse.total_pages)
-        context.commit("setCurrentPage", parsedResponse.current_page)
+        context.commit("setCocktails", response.cocktails)
+        context.commit("setTotalPages", response.total_pages)
+        context.commit("setCurrentPage", response.current_page)
     },
     async fetchCocktailDetail(context, cocktail_id) {
         const response = await this.$axios.$get('/cocktails/' + cocktail_id).catch(err => {
@@ -111,5 +110,6 @@ export const actions = {
         })
         const parsedResponse = JSON.parse(response)
         context.commit("setCocktailDetail", parsedResponse.cocktail)
+        console.log(parsedResponse)
     }
 }
