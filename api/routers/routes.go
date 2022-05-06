@@ -1,25 +1,27 @@
 package routers
 
 import (
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
+	"github.com/sirupsen/logrus"
 	"github.com/yuya-lock/contessa/api/controller"
 )
 
 func Init() {
+	err := godotenv.Load(".env")
+	if err != nil {
+		logrus.Fatal("Error while loading .env file.\n%s", err)
+	}
+
 	e := echo.New()
 	e.GET("/", controller.Index)
-	e.GET("/cocktails", controller.FetchCocktails)
-	e.GET("/cocktails/:id", controller.FetchCocktailDetail)
+	e.GET("/cocktails", controller.GetCocktails)
+	e.GET("/cocktails/:id", controller.GetCocktailDetail)
 
-	//e.POST("/accounts", controller.createUser)
-	//e.POST("/login", controller.Login)
-	//e.GET("/user", controller.getUser)
-	//e.GET("logout", controller.Logout)
-	e.POST("/register", controller.Register)
-
-	//r := e.Group("/restricted")
-	//r.Use(middleware.JWTWithConfig(Config))
-	//r.GET("", controller.Restricted)
+	e.POST("/signup", controller.Signup)
+	e.POST("/login", controller.Login)
+	e.GET("/user", controller.User)
+	e.GET("logout", controller.Logout)
 
 	e.Logger.Fatal(e.Start(":8000"))
 }
