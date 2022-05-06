@@ -2,11 +2,12 @@ package models
 
 import (
 	"github.com/dgrijalva/jwt-go"
+	"gorm.io/gorm"
 )
 
 type (
 	User struct {
-		ID       uint   `json:"id" form:"id" query:"id"`
+		gorm.Model
 		Name     string `json:"name" form:"name" query:"name" gorm:"unique"`
 		Password []byte `json:"password" form:"password" query:"password"`
 		Age      string `json:"age" form:"age" query:"age"`
@@ -14,7 +15,7 @@ type (
 		Sex      string `json:"sex" form:"sex" query:"sex"`
 	}
 
-	jwtCustomClaims struct {
+	JwtCustomClaims struct {
 		UID  uint   `json:"uid"`
 		Name string `json:"name"`
 		jwt.StandardClaims

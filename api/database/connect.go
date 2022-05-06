@@ -3,7 +3,6 @@ package database
 import (
 	"database/sql"
 	"fmt"
-	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
 	"github.com/yuya-lock/contessa/api/conf"
 	"github.com/yuya-lock/contessa/api/models"
@@ -16,10 +15,6 @@ import (
 )
 
 func Connect() (*gorm.DB, *sql.DB, error) {
-	err := godotenv.Load("../.env")
-	if err != nil {
-		logrus.Fatal("Error while loading .env file.\n%s", err)
-	}
 	user := os.Getenv("DB_USER")
 	password := os.Getenv("DB_PASSWORD")
 	host := os.Getenv("DB_HOST")
