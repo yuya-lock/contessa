@@ -8,8 +8,7 @@ import (
 )
 
 func Init() {
-	err := godotenv.Load(".env")
-	if err != nil {
+	if err := godotenv.Load(".env"); err != nil {
 		logrus.Fatal("Error while loading .env file.\n%s", err)
 	}
 
@@ -17,10 +16,9 @@ func Init() {
 	e.GET("/", controller.Index)
 	e.GET("/cocktails", controller.GetCocktails)
 	e.GET("/cocktails/:id", controller.GetCocktailDetail)
-
 	e.POST("/signup", controller.Signup)
 	e.POST("/login", controller.Login)
-	e.GET("/user", controller.User)
+	e.GET("/mypage", controller.Mypage)
 	e.GET("logout", controller.Logout)
 
 	e.Logger.Fatal(e.Start(":8000"))

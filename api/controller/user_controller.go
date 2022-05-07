@@ -13,7 +13,7 @@ import (
 )
 
 func Signup(c echo.Context) error {
-	logrus.Info("Regist User")
+	logrus.Info("Register User")
 
 	u := new(models.User)
 	if err := c.Bind(u); err != nil {
@@ -27,8 +27,15 @@ func Signup(c echo.Context) error {
 	defer sqlDB.Close()
 	database.InitDB()
 
-	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(u.Password), 12)
-	user := models.User{
+	hashedPassword, _ := bcrypt.GenerateFromPassword(u.Password, 12)
+	user := models.User{}
+	db.Where("name = ?", u.Name).First(&user)
+	if user.ID != 0 {
+		return c.JSON(http.StatusBadRequest, echo.Map{
+			"message": "This account already exists.",
+		})
+	}
+	user = models.User{
 		Name:     u.Name,
 		Password: hashedPassword,
 		Job:      u.Job,
@@ -66,13 +73,9 @@ func Login(c echo.Context) error {
 		})
 	}
 
-	claims := &models.JwtCustomClaims{
-		UID:  user.ID,
-		Name: user.Name,
-		StandardClaims: jwt.StandardClaims{
-			Issuer:    strconv.Itoa(int(user.ID)),
-			ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
-		},
+	claims := jwt.StandardClaims{
+		Issuer:    strconv.Itoa(int(user.ID)),
+		ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
 	}
 
 	jwtToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -92,7 +95,7 @@ func Login(c echo.Context) error {
 	})
 }
 
-func User(c echo.Context) error {
+func Mypage(c echo.Context) error {
 	cookie, err := c.Cookie("jwtToken")
 	if err != nil {
 		return echo.ErrUnauthorized

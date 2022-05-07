@@ -7,7 +7,6 @@ require (
 	github.com/joho/godotenv v1.4.0
 	github.com/labstack/echo/v4 v4.7.2
 	github.com/sirupsen/logrus v1.8.1
-	github.com/yuya-lock/contessa/backend/lib v0.0.0-20220505101312-71f88191d14e
 	golang.org/x/crypto v0.0.0-20220427172511-eb4f295cb31f
 	gorm.io/driver/mysql v1.3.3
 	gorm.io/gorm v1.23.5

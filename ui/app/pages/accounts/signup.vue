@@ -11,6 +11,7 @@
                     <v-form
                         ref="form"
                         v-model="valid"
+                        @submit.prevent="signUp"
                         lazy-validation
                     >
                         <v-row justify="center">
@@ -64,9 +65,9 @@
                         <v-row justify="center">
                             <v-btn
                                 class="ma-4 px-4"
-                                type="submit"
                                 color="blue lighten-4"
-                            >SUBMIT</v-btn>
+                                type="submit"
+                            >SIGN UP</v-btn>
                         </v-row>
                     </v-form>
                 </v-card>
@@ -112,49 +113,24 @@ export default {
                 "女性",
                 "その他",
             ],
+            name: "",
+            password: "",
+            job: "",
+            age: "",
+            sex: "",
         }
     },
-    computed: {
-        name: {
-            get() {
-                return this.$store.getters["accounts/name"]
-            },
-            set(value) {
-                this.$store.commit("accounts/setName", value)
+    methods: {
+        signUp() {
+            let user = {
+                name: this.name,
+                password: this.password,
+                job: this.job,
+                age: this.age,
+                sex: this.sex
             }
-        },
-        password: {
-            get() {
-                return this.$store.getters["accounts/password"]
-            },
-            set(value) {
-                this.$store.commit("accounts/setPassword", value)
-            }
-        },
-        age: {
-            get() {
-                return this.$store.getters["accounts/age"]
-            },
-            set(value) {
-                this.$store.commit("accounts/setAge", value.number)
-            }
-        },
-        job: {
-            get() {
-                return this.$store.getters["accounts/job"]
-            },
-            set(value) {
-                this.$store.commit("accounts/setJob", value)
-            }
-        },
-        sex: {
-            get() {
-                return this.$store.getters["accounts/sex"]
-            },
-            set(value) {
-                this.$store.commit("accounts/setSex", value)
-            }
-        },
+            this.$store.dispatch("accounts/signup", { user })
+        }
     }
 }
 </script>
