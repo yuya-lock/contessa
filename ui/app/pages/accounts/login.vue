@@ -16,6 +16,7 @@
                     <v-form
                         ref="form"
                         v-model="valid"
+                        @submit.prevent="login"
                         lazy-validation
                     >
                         <v-row justify="center">
@@ -45,7 +46,7 @@
                                 class="ma-4 px-4"
                                 type="submit"
                                 color="blue lighten-4"
-                            >SUBMIT</v-btn>
+                            >LOG IN</v-btn>
                         </v-row>
                     </v-form>
                 </v-card>
@@ -67,14 +68,20 @@ export default {
                 max: v => v.length <= 20 || "20文字以内で入力してください。",
                 min: v => v.length >= 8 || "8文字以上で入力してください。",
             },
+            name: "",
+            password: "",
         }
-    },
-    computed: {
-        
     },
     methods: {
         signUpForm() {
             this.$router.push("/accounts/signup")
+        },
+        login() {
+            let user = {
+                name: this.name,
+                password: this.password
+            }
+            this.$store.dispatch("accounts/login", { user })
         },
     }
 }
