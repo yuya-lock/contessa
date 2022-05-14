@@ -1,15 +1,12 @@
 package controller
 
 import (
-	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 	"github.com/yuya-lock/contessa/api/database"
 	"github.com/yuya-lock/contessa/api/models"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
-	"strconv"
-	"time"
 )
 
 func Signup(c echo.Context) error {
@@ -44,7 +41,9 @@ func Signup(c echo.Context) error {
 	}
 	db.Create(&user)
 
-	return c.JSON(http.StatusOK, user)
+	return c.JSON(http.StatusOK, echo.Map{
+		"message": "Your account was created successfully",
+	})
 }
 
 func Login(c echo.Context) error {
@@ -73,63 +72,28 @@ func Login(c echo.Context) error {
 		})
 	}
 
-	claims := jwt.StandardClaims{
-		Issuer:    strconv.Itoa(int(user.ID)),
-		ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
-	}
-
-	jwtToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	token, err := jwtToken.SignedString([]byte("secret"))
-	if err != nil {
-		return err
-	}
-
-	cookie := new(http.Cookie)
-	cookie.Name = "jwtToken"
-	cookie.Value = token
-	cookie.Expires = time.Now().Add(24 * time.Hour)
-	c.SetCookie(cookie)
-
-	return c.JSON(http.StatusOK, echo.Map{
-		"token": token,
-	})
-}
-
-func Mypage(c echo.Context) error {
-	cookie, err := c.Cookie("jwtToken")
-	if err != nil {
-		return echo.ErrUnauthorized
-	}
-	token, err := jwt.ParseWithClaims(cookie.Value, &models.JwtCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte("secret"), nil
-	})
-	if err != nil || !token.Valid {
-		return echo.ErrUnauthorized
-	}
-
-	claims := token.Claims.(*models.JwtCustomClaims)
-	id := claims.Issuer
-
-	db, sqlDB, err := database.Connect()
-	if err != nil {
-		return c.String(http.StatusServiceUnavailable, "")
-	}
-	defer sqlDB.Close()
-
-	var user models.User
-	db.Where("id = ?", id).First(&user)
+	//claims := &models.JwtCustomClaims{
+	//	UID:  user.ID,
+	//	Name: user.Name,
+	//	StandardClaims: jwt.StandardClaims{
+	//		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
+	//	},
+	//}
+	//
+	//token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	//t, err := token.SignedString([]byte("secret"))
+	//if err != nil {
+	//	return err
+	//}
 
 	return c.JSON(http.StatusOK, user)
 }
 
-func Logout(c echo.Context) error {
-	cookie := new(http.Cookie)
-	cookie.Name = "jwtToken"
-	cookie.Value = ""
-	cookie.Expires = time.Now().Add(-time.Hour)
-	c.SetCookie(cookie)
-
-	return c.JSON(http.StatusOK, echo.Map{
-		"message": "success",
-	})
-}
+//func Restricted(c echo.Context) error {
+//	user := c.Get("user").(*jwt.Token)
+//	claims := user.Claims.(*models.JwtCustomClaims)
+//	name := claims.Name
+//	return c.JSON(http.StatusOK, echo.Map{
+//		"name": name,
+//	})
+//}

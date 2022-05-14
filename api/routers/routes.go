@@ -13,13 +13,20 @@ func Init() {
 	}
 
 	e := echo.New()
-	e.GET("/", controller.Index)
+	e.GET("/", controller.InputCocktailData)
 	e.GET("/cocktails", controller.GetCocktails)
 	e.GET("/cocktails/:id", controller.GetCocktailDetail)
 	e.POST("/signup", controller.Signup)
 	e.POST("/login", controller.Login)
-	e.GET("/mypage", controller.Mypage)
-	e.GET("logout", controller.Logout)
+
+	//config := middleware.JWTConfig{
+	//	Claims:     &models.JwtCustomClaims{},
+	//	SigningKey: []byte("secret"),
+	//}
+	//
+	//r := e.Group("/restricted")
+	//r.Use(middleware.JWTWithConfig(config))
+	//r.GET("", controller.Restricted)
 
 	e.Logger.Fatal(e.Start(":8000"))
 }
