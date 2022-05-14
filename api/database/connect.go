@@ -55,7 +55,7 @@ func InitDB() error {
 		return fmt.Errorf("error occured when initializing DB")
 	}
 	defer sqlDB.Close()
-	err = db.AutoMigrate(&models.User{})
+	err = db.AutoMigrate(&models.User{}, &models.Cocktail{}, &models.Recipe{})
 	if err != nil {
 		return fmt.Errorf("error occured when migrating database\n%s", err)
 	}

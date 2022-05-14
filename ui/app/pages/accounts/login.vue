@@ -59,6 +59,11 @@
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
+    asyncData({ redirect, store }) {
+        if (store.getters["user"]) {
+            redirect("")
+        }
+    },
     data() {
         return {
             valid: true,
@@ -77,12 +82,16 @@ export default {
             this.$router.push("/accounts/signup")
         },
         login() {
-            let user = {
+            this.$store.dispatch("accounts/login", {
                 name: this.name,
                 password: this.password
-            }
-            this.$store.dispatch("accounts/login", { user })
+            })
+            this.name = "";
+            this.password = "";
         },
-    }
+        // ...mapActions("accounts", [
+        //     "login"
+        // ])
+    },
 }
 </script>

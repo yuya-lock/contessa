@@ -104,12 +104,10 @@ export const actions = {
         context.commit("setTotalPages", response.total_pages)
         context.commit("setCurrentPage", response.current_page)
     },
-    async fetchCocktailDetail(context, cocktail_id) {
+    async fetchCocktailDetail({ commit }, cocktail_id) {
         const response = await this.$axios.$get('/cocktails/' + cocktail_id).catch(err => {
             return err.response
         })
-        const parsedResponse = JSON.parse(response)
-        context.commit("setCocktailDetail", parsedResponse.cocktail)
-        console.log(parsedResponse)
+        commit("setCocktailDetail", response)
     }
 }

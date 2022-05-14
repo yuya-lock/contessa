@@ -11,7 +11,7 @@
                     <v-form
                         ref="form"
                         v-model="valid"
-                        @submit.prevent="signUp"
+                        @submit.prevent="signup"
                         lazy-validation
                     >
                         <v-row justify="center">
@@ -121,15 +121,19 @@ export default {
         }
     },
     methods: {
-        signUp() {
-            let user = {
+        signup() {
+            this.$store.dispatch("accounts/signup", {
                 name: this.name,
                 password: this.password,
                 job: this.job,
                 age: this.age,
                 sex: this.sex
-            }
-            this.$store.dispatch("accounts/signup", { user })
+            })
+            this.name = "";
+            this.password = "";
+            this.job = "";
+            this.age = "";
+            this.sex = "";
         }
     }
 }
