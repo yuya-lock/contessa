@@ -12,9 +12,9 @@ type (
 		Age      string `json:"age" form:"age" query:"age"`
 		Job      string `json:"job" form:"job" query:"job"`
 		Sex      string `json:"sex" form:"sex" query:"sex"`
-		Comment  []Comment
-		Like     []Like
-		Rate     []Rate
+		Comments []Comment
+		Likes    []Like
+		Rates    []Rate
 	}
 
 	//JwtCustomClaims struct {
