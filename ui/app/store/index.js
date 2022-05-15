@@ -109,5 +109,6 @@ export const actions = {
             return err.response
         })
         commit("setCocktailDetail", response)
+        console.log(response)
     }
 }

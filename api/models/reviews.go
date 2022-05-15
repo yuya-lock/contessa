@@ -5,7 +5,7 @@ import "gorm.io/gorm"
 type (
 	Comment struct {
 		gorm.Model
-		body       string
+		Body       string `json:"body" form:"body" query:"body"`
 		UserID     uint
 		CocktailID uint
 	}
@@ -18,7 +18,7 @@ type (
 
 	Rate struct {
 		ID         uint
-		Rating     uint
+		Rating     uint `json:"rating" form:"rating" query:"rating"`
 		UserID     uint
 		CocktailID uint
 	}

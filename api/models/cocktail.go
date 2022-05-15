@@ -15,6 +15,7 @@ type (
 		TypeName            string   `json:"type_name"`
 		CocktailDigest      string   `json:"cocktail_digest"`
 		CocktailDesc        string   `json:"cocktail_desc"`
+		RecipeDesc          string   `json:"recipe_desc"`
 		Recipes             []Recipe `json:"recipes" gorm:"many2many:cocktail_recipes;"`
 		Comment             []Comment
 		Like                []Like
