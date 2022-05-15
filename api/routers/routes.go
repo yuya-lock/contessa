@@ -24,9 +24,9 @@ func Init() {
 	e.POST("like", controller.CreateCocktailLike)
 	e.GET("/like/:id", controller.GetCocktailLike)
 	e.PUT("/like", controller.UpdateCocktailLike)
-	e.POST("/comment", controller.CreateCocktailRate)
-	e.GET("/comment/:id", controller.GetCocktailRate)
-	e.PUT("/comment", controller.UpdateCocktailRate)
+	e.POST("/rate", controller.CreateCocktailRate)
+	e.GET("/rate/:id", controller.GetCocktailRate)
+	e.PUT("/rate", controller.UpdateCocktailRate)
 
 	//config := middleware.JWTConfig{
 	//	Claims:     &models.JwtCustomClaims{},

@@ -11,13 +11,13 @@ type (
 	}
 
 	Like struct {
-		ID         uint
+		gorm.Model
 		UserID     uint
 		CocktailID uint
 	}
 
 	Rate struct {
-		ID         uint
+		gorm.Model
 		Rating     uint `json:"rating" form:"rating" query:"rating"`
 		UserID     uint
 		CocktailID uint
