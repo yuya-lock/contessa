@@ -71,6 +71,7 @@ func InputCocktailData(c echo.Context) error {
 				TypeName:            v.TypeName,
 				CocktailDigest:      v.CocktailDigest,
 				CocktailDesc:        v.CocktailDesc,
+				RecipeDesc:          v.RecipeDesc,
 				Recipes:             v.Recipes,
 			}
 			for _, u := range v.Recipes {
