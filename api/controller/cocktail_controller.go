@@ -36,7 +36,7 @@ func GetCocktailDetail(c echo.Context) error {
 	defer sqlDB.Close()
 
 	cocktail := models.Cocktail{}
-	db.Where("cocktail_id = ?", id).Preload("Recipes").Find(&cocktail)
+	db.Where("cocktail_id = ?", id).Preload("Recipes").Preload("Comments").Preload("Likes").Preload("Rates").Find(&cocktail)
 
 	return c.JSON(http.StatusOK, cocktail)
 }

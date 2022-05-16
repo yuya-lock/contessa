@@ -59,7 +59,7 @@ func Login(c echo.Context) error {
 	defer sqlDB.Close()
 
 	user := models.User{}
-	db.Where("name = ?", u.Name).First(&user)
+	db.Where("name = ?", u.Name).Preload("Comments").Preload("Likes").Preload("Rates").First(&user)
 	if user.ID == 0 {
 		return c.JSON(http.StatusNotFound, echo.Map{
 			"message": "User not found",

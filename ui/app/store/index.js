@@ -14,6 +14,7 @@ export const state = () => ({
     limit: 10,
     cocktails: [],
     cocktail_detail: [],
+    comment: [],
 })
 
 export const getters = {
@@ -32,6 +33,7 @@ export const getters = {
     limit: (state) => state.limit,
     cocktails: (state) => state.cocktails,
     cocktail_detail: (state) => state.cocktail_detail,
+    comment: (state) => state.commnet,
 }
 
 export const mutations = {
@@ -80,6 +82,9 @@ export const mutations = {
     setCocktailDetail(state, cocktail_detail) {
         state.cocktail_detail = cocktail_detail
     },
+    setComment(state, comment) {
+        state.comment = comment
+    },
 }
 
 export const actions = {
@@ -110,5 +115,46 @@ export const actions = {
         })
         commit("setCocktailDetail", response)
         console.log(response)
-    }
+    },
+    createComment({ commit }, payload) {
+        this.$axios
+            .$post('/comment', {
+                body: payload.body,
+                cocktail_id: payload.cocktail_id,
+                user_id: payload.user_id
+            })
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    },
+    createLike({ commit }, payload) {
+        this.$axios
+            .$post('/like', {
+                cocktail_id: payload.cocktail_id,
+                user_id: payload.user_id
+            })
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    },
+    createRate({ commit }, payload) {
+        this.$axios
+            .$post('/rate', {
+                rating: payload.rating,
+                cocktail_id: payload.cocktail_id,
+                user_id: payload.user_id
+            })
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    },
 }

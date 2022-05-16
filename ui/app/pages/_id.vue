@@ -7,6 +7,23 @@
                     elevation="0"
                     outlined
                 >
+                    <v-row class="mb-1" justify="end">
+                        <v-btn
+                            elevation="0"
+                            outlined
+                            color="blue-grey lighten-2"
+                            @click="createLike"
+                        >
+                            <div v-if="done">
+                                <v-icon left>mdi-thumb-up</v-icon>
+                                MY COCKTAILに追加済み
+                            </div>
+                            <div v-else>
+                                <v-icon left>mdi-thumb-up</v-icon>
+                                MY COCKTAILに追加
+                            </div>
+                        </v-btn>
+                    </v-row>
                     <v-card-subtitle class="py-0">{{ cocktail.cocktail_digest }}</v-card-subtitle>
                     <v-card-title class="pt-0">{{ cocktail.cocktail_name }}</v-card-title>
                     <v-card-subtitle>{{ cocktail.cocktail_name_english }}</v-card-subtitle>
@@ -106,6 +123,68 @@
                     </v-card-text>
                 </v-card>
             </v-col>
+            <v-col cols="12" sm="5" md="4" class="mt-3">
+                <v-card
+                    class="pa-4"
+                    elevation="0"
+                    outlined
+                >
+                    <v-card-title>Review This Cocktail</v-card-title>
+                    <v-textarea
+                        v-model="comment"
+                        label="このカクテルのレビューを書く"
+                        outlined
+                        auto-grow
+                        class="pt-2"
+                    ></v-textarea>
+                    <v-row justify="center" class="mb-1">
+                        <v-btn
+                            width="88px"
+                            elevation="1"
+                            color="indigo lighten-3"
+                            @click="createComment"
+                        >SUBMIT</v-btn>
+                    </v-row>
+                </v-card>
+                <v-card
+                    class="pa-4 mt-5"
+                    elevation="0"
+                    outlined
+                >
+                    <v-card-title>Rate This Cocktail</v-card-title>
+                    <v-card-text>
+                        If you enjoy drinking this cocktail, please take a few seconds to rate your experience. It really helps!
+                        <div class="text-center mt-6">
+                            <v-rating
+                                v-model="rating"
+                                color="yellow darken-3"
+                                background-color="grey darken-1"
+                                empty-icon="$ratingFull"
+                                hover
+                            ></v-rating>
+                        </div>
+                    </v-card-text>
+                    <v-divider></v-divider>
+                    <v-card-actions class="justify-center">
+                        <v-btn
+                            color="primary"
+                            @click="createRate"
+                            text
+                        >Rate Now</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-col>
+            <v-col cols="12" sm="7" md="8">
+                <v-card
+                    class="my-3"
+                    elevation="0"
+                    outlined
+                    v-for="comment in cocktail.comments"
+                    :key="comment.ID"
+                >
+                    <v-card-text>{{ comment.body }}</v-card-text>
+                </v-card>
+            </v-col>
         </v-row>
     </div>
 </template>
@@ -114,10 +193,41 @@
 import { mapGetters } from "vuex"
 
 export default {
+    data() {
+        return {
+            done: false,
+            comment: "",
+            rating: 0,
+        }
+    },
     computed: {
         ...mapGetters({
             cocktail: "cocktail_detail"
         }),
-    }
+    },
+    methods: {
+        createComment() {
+            this.$store.dispatch("createComment", {
+                body: this.comment,
+                cocktail_id: this.cocktail.cocktail_id,
+                user_id: this.$store.getters["accounts/user"].ID
+            })
+            this.comment = "";
+        },
+        createLike() {
+            this.$store.dispatch("createLike", {
+                cocktail_id: this.cocktail.cocktail_id,
+                user_id: this.$store.getters["accounts/user"].ID
+            })
+            this.done = !this.done;
+        },
+        createRate() {
+            this.$store.dispatch("createRate", {
+                rating: this.rating,
+                cocktail_id: this.cocktail.cocktail_id,
+                user_id: this.$store.getters["accounts/user"].ID
+            })
+        },
+    },
 }
 </script>
