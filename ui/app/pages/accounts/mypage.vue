@@ -38,6 +38,17 @@
                     </v-expand-transition>
                 </v-card>
             </v-col>
+            <v-col cols="12" sm="7" md="8">
+                <v-card
+                    class="my-3"
+                    elevation="0"
+                    outlined
+                    v-for="like in user.likes"
+                    :key="like.cocktail_id"
+                >
+                    <v-card-text>{{ cooment.body }}</v-card-text>
+                </v-card>
+            </v-col>
         </v-row>
     </div>
 </template>

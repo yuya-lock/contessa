@@ -25,6 +25,7 @@ export const actions = {
             .then(response => {
                 commit("setUser", response)
                 console.log(response)
+                this.$router.push("/accounts/mypage")
             });
     },
     signup({ commit }, authData) {
@@ -38,6 +39,7 @@ export const actions = {
             })
             .then(response => {
                 console.log(response)
+                this.$router.push("/accounts/login")
             });
     },
 }

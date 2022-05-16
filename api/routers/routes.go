@@ -19,14 +19,9 @@ func Init() {
 	e.POST("/signup", controller.Signup)
 	e.POST("/login", controller.Login)
 	e.POST("/comment", controller.CreateCocktailComment)
-	e.GET("/comment/:id", controller.GetCocktailComment)
-	e.PUT("/comment", controller.UpdateCocktailComment)
-	e.POST("like", controller.CreateCocktailLike)
-	e.GET("/like/:id", controller.GetCocktailLike)
-	e.PUT("/like", controller.UpdateCocktailLike)
+	e.POST("/like", controller.CreateCocktailLike)
+	e.DELETE("/like", controller.DeleteCocktailLike)
 	e.POST("/rate", controller.CreateCocktailRate)
-	e.GET("/rate/:id", controller.GetCocktailRate)
-	e.PUT("/rate", controller.UpdateCocktailRate)
 
 	//config := middleware.JWTConfig{
 	//	Claims:     &models.JwtCustomClaims{},

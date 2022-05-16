@@ -21,7 +21,7 @@ func CreateCocktailComment(c echo.Context) error {
 	database.InitDB()
 
 	comment := models.Comment{}
-	db.Where("user_id = ? AND cocktail_id = ?", input.UserID, input.CocktailID).First(&comment)
+	db.Where("user_id = ? AND cocktail_id = ?", input.UserID, input.CocktailID).Find(&comment)
 	if comment.ID != 0 {
 		return c.JSON(http.StatusBadRequest, echo.Map{
 			"message": "This comment already exists.",
@@ -36,41 +36,6 @@ func CreateCocktailComment(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, echo.Map{
 		"message": "Your comment was created successfully",
-	})
-}
-
-func GetCocktailComment(c echo.Context) error {
-	id := c.Param("id")
-
-	db, sqlDB, err := database.Connect()
-	if err != nil {
-		return err
-	}
-	defer sqlDB.Close()
-
-	comment := models.Comment{}
-	db.Where("cocktail_id = ?", id).First(&comment)
-
-	return c.JSON(http.StatusOK, comment)
-}
-
-func UpdateCocktailComment(c echo.Context) error {
-	input := new(models.Comment)
-	if err := c.Bind(input); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
-	}
-
-	db, sqlDB, err := database.Connect()
-	if err != nil {
-		return err
-	}
-	defer sqlDB.Close()
-
-	comment := models.Comment{}
-	db.Model(&comment).Where("user_id = ? AND cocktail_id = ?", input.UserID, input.CocktailID).Update("body", input.Body)
-
-	return c.JSON(http.StatusOK, echo.Map{
-		"message": "Your comment was updated successfully.",
 	})
 }
 
@@ -104,22 +69,7 @@ func CreateCocktailLike(c echo.Context) error {
 	})
 }
 
-func GetCocktailLike(c echo.Context) error {
-	id := c.Param("id")
-
-	db, sqlDB, err := database.Connect()
-	if err != nil {
-		return err
-	}
-	defer sqlDB.Close()
-
-	like := models.Like{}
-	db.Where("user_id = ?", id).First(&like)
-
-	return c.JSON(http.StatusOK, like)
-}
-
-func UpdateCocktailLike(c echo.Context) error {
+func DeleteCocktailLike(c echo.Context) error {
 	input := new(models.Comment)
 	if err := c.Bind(input); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
@@ -168,40 +118,5 @@ func CreateCocktailRate(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, echo.Map{
 		"message": "Your rate was created successfully",
-	})
-}
-
-func GetCocktailRate(c echo.Context) error {
-	id := c.Param("id")
-
-	db, sqlDB, err := database.Connect()
-	if err != nil {
-		return err
-	}
-	defer sqlDB.Close()
-
-	rate := models.Rate{}
-	db.Where("cocktail_id = ?", id).First(&rate)
-
-	return c.JSON(http.StatusOK, rate)
-}
-
-func UpdateCocktailRate(c echo.Context) error {
-	input := new(models.Rate)
-	if err := c.Bind(input); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
-	}
-
-	db, sqlDB, err := database.Connect()
-	if err != nil {
-		return err
-	}
-	defer sqlDB.Close()
-
-	rate := models.Rate{}
-	db.Model(&rate).Where("user_id = ? AND cocktail_id = ?", input.UserID, input.CocktailID).Update("rating", input.Rating)
-
-	return c.JSON(http.StatusOK, echo.Map{
-		"message": "Your rate was updated successfully.",
 	})
 }

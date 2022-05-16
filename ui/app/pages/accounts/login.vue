@@ -89,9 +89,6 @@ export default {
             this.name = "";
             this.password = "";
         },
-        // ...mapActions("accounts", [
-        //     "login"
-        // ])
     },
 }
 </script>
