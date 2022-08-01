@@ -3,8 +3,10 @@ package routers
 import (
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"github.com/sirupsen/logrus"
 	"github.com/yuya-lock/contessa/api/controller"
+	"github.com/yuya-lock/contessa/api/models"
 )
 
 func Init() {
@@ -23,14 +25,14 @@ func Init() {
 	e.DELETE("/like", controller.DeleteCocktailLike)
 	e.POST("/rate", controller.CreateCocktailRate)
 
-	//config := middleware.JWTConfig{
-	//	Claims:     &models.JwtCustomClaims{},
-	//	SigningKey: []byte("secret"),
-	//}
-	//
-	//r := e.Group("/restricted")
-	//r.Use(middleware.JWTWithConfig(config))
-	//r.GET("", controller.Restricted)
+	config := middleware.JWTConfig{
+		Claims:     &models.JwtCustomClaims{},
+		SigningKey: []byte("secret"),
+	}
+
+	r := e.Group("/restricted")
+	r.Use(middleware.JWTWithConfig(config))
+	r.GET("", controller.Restricted)
 
 	e.Logger.Fatal(e.Start(":8000"))
 }

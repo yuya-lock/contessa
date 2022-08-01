@@ -1,12 +1,14 @@
 package controller
 
 import (
+	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 	"github.com/yuya-lock/contessa/api/database"
 	"github.com/yuya-lock/contessa/api/models"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
+	"time"
 )
 
 func Signup(c echo.Context) error {
@@ -72,28 +74,32 @@ func Login(c echo.Context) error {
 		})
 	}
 
-	//claims := &models.JwtCustomClaims{
-	//	UID:  user.ID,
-	//	Name: user.Name,
-	//	StandardClaims: jwt.StandardClaims{
-	//		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
-	//	},
-	//}
-	//
-	//token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	//t, err := token.SignedString([]byte("secret"))
-	//if err != nil {
-	//	return err
-	//}
+	claims := &models.JwtCustomClaims{
+		UID:  user.ID,
+		Name: user.Name,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
+		},
+	}
 
-	return c.JSON(http.StatusOK, user)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	t, err := token.SignedString([]byte("secret"))
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, echo.Map{
+		"token": t,
+	})
+
+	//return c.JSON(http.StatusOK, user)
 }
 
-//func Restricted(c echo.Context) error {
-//	user := c.Get("user").(*jwt.Token)
-//	claims := user.Claims.(*models.JwtCustomClaims)
-//	name := claims.Name
-//	return c.JSON(http.StatusOK, echo.Map{
-//		"name": name,
-//	})
-//}
+func Restricted(c echo.Context) error {
+	user := c.Get("user").(*jwt.Token)
+	claims := user.Claims.(*models.JwtCustomClaims)
+	name := claims.Name
+	return c.JSON(http.StatusOK, echo.Map{
+		"name": name,
+	})
+}

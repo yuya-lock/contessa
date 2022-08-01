@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/dgrijalva/jwt-go"
 	"gorm.io/gorm"
 )
 
@@ -17,9 +18,9 @@ type (
 		Rates    []Rate
 	}
 
-	//JwtCustomClaims struct {
-	//	UID  uint   `json:"uid"`
-	//	Name string `json:"name"`
-	//	jwt.StandardClaims
-	//}
+	JwtCustomClaims struct {
+		UID  uint   `json:"uid"`
+		Name string `json:"name"`
+		jwt.StandardClaims
+	}
 )
