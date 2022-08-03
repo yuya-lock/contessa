@@ -9,12 +9,29 @@ import (
 	"github.com/yuya-lock/contessa/api/models"
 )
 
+func MethodOverride(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		if c.Request().Method == "POST" {
+			method := c.Request().PostFormValue("_method")
+			if method == "PUT" || method == "PATCH" || method == "DELETE" {
+				c.Request().Method = method
+			}
+		}
+		return next(c)
+	}
+}
+
 func Init() {
 	if err := godotenv.Load(".env"); err != nil {
 		logrus.Fatal("Error while loading .env file.\n%s", err)
 	}
 
 	e := echo.New()
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+
+	e.Use(middleware.CORS())
+	e.Pre(MethodOverride)
 	e.GET("/", controller.InputCocktailData)
 	e.GET("/cocktails", controller.GetCocktails)
 	e.GET("/cocktails/:id", controller.GetCocktailDetail)
@@ -34,5 +51,5 @@ func Init() {
 	r.Use(middleware.JWTWithConfig(config))
 	r.GET("", controller.Restricted)
 
-	e.Logger.Fatal(e.Start(":8000"))
+	e.Logger.Fatal(e.Start(":8080"))
 }

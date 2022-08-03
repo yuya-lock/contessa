@@ -8,6 +8,7 @@ import (
 	"github.com/yuya-lock/contessa/api/models"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -91,12 +92,25 @@ func Login(c echo.Context) error {
 	return c.JSON(http.StatusOK, echo.Map{
 		"token": t,
 	})
-
-	//return c.JSON(http.StatusOK, user)
 }
 
 func Restricted(c echo.Context) error {
-	user := c.Get("user").(*jwt.Token)
+	auth := c.Request().Header.Get("Authorization")
+	if auth == "" {
+		return c.JSON(http.StatusUnauthorized, echo.Map{
+			"Message": "Authorization Header Not Found",
+		})
+	}
+	splitToken := strings.Split(auth, "Bearer ")
+	auth = splitToken[1]
+	user, err := jwt.ParseWithClaims(auth, &models.JwtCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte("secret"), nil
+	})
+	if err != nil {
+		return c.JSON(http.StatusNotFound, echo.Map{
+			"Message": "Token is wrong or Expire",
+		})
+	}
 	claims := user.Claims.(*models.JwtCustomClaims)
 	name := claims.Name
 	return c.JSON(http.StatusOK, echo.Map{
