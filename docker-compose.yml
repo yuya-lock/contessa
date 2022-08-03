@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: ./docker/golang/Dockerfile
     ports:
-      - "8000:8000"
+      - "8080:8080"
     restart: always
     volumes:
       - ./api:/go/src/api/
@@ -25,17 +25,6 @@ services:
       - ./ui:/app
     tty: true
     command: npm run dev
-
-  nginx:
-    build:
-      context: .
-      dockerfile: ./docker/nginx/Dockerfile
-    ports:
-      - "80:80"
-    restart: always
-    depends_on:
-      - api
-    tty: true
 
   mysql:
     image: mysql:8.0.28
