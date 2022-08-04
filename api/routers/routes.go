@@ -49,7 +49,10 @@ func Init() {
 
 	r := e.Group("/restricted")
 	r.Use(middleware.JWTWithConfig(config))
-	r.GET("", controller.Restricted)
+	r.GET("/mypage", controller.GetUser)
+	r.GET("/favoritecocktails", controller.GetFavoriteCocktails)
+	r.GET("/mycomments", controller.GetMyComments)
+	r.GET("/myrates", controller.GetMyRates)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }

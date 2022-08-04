@@ -1,18 +1,35 @@
 export const state = () => ({
-    isLoggedIn: false,
     user: [],
+    token: null,
+    favorite_cocktails: [],
+    mycomment_cocktails: [],
+    myrate_cocktails: []
 })
 
 export const getters = {
-    isLoggedIn: (state) => state.isLoggedIn,
-    user: (state) => state.user
+    user: (state) => state.user,
+    token: (state) => state.token,
+    favorite_cocktails: (state) => state.favorite_cocktails,
+    mycomment_cocktails: (state) => state.mycomment_cocktails,
+    myrate_cocktails: (state) => state.myrate_cocktails,
 }
 
 export const mutations = {
     setUser(state, user) {
         state.user = user
-        state.isLoggedIn = true
-    }
+    },
+    updateToken(state, token) {
+        state.token = token
+    },
+    setFavoriteCocktails(state, favorite_cocktails) {
+        state.favorite_cocktails = favorite_cocktails
+    },
+    setMyCommentCocktails(state, mycomment_cocktails) {
+        state.mycomment_cocktails = mycomment_cocktails
+    },
+    setMyRateCocktails(state, myrate_cocktails) {
+        state.myrate_cocktails = myrate_cocktails
+    },
 }
 
 export const actions = {
@@ -23,8 +40,7 @@ export const actions = {
                 password: authData.password
             })
             .then(response => {
-                commit("setUser", response)
-                console.log(response)
+                commit("updateToken", response.token)
                 this.$router.push("/accounts/mypage")
             });
     },
@@ -38,8 +54,52 @@ export const actions = {
                 sex: authData.sex
             })
             .then(response => {
-                console.log(response)
                 this.$router.push("/accounts/login")
             });
+    },
+    mypage({ state, commit }) {
+        this.$axios
+            .$get("/restricted/mypage", {
+                headers: {
+                    Authorization: `Bearer ${state.token}`
+                }
+            })
+            .then(response => {
+                commit("setUser", response.user)
+                console.log(response)
+            })
+    },
+    getFavoriteCocktails({ state, commit }) {
+        this.$axios
+            .$get("/restricted/favoritecocktails", {
+                headers: {
+                    Authorization: `Bearer ${state.token}`
+                }
+            })
+            .then(response => {
+                commit("setFavoriteCocktails", response.favoriteCocktails)
+            })
+    },
+    getMyCommentCocktails({ state, commit }) {
+        this.$axios
+            .$get("/restricted/mycomments", {
+                headers: {
+                    Authorization: `Bearer ${state.token}`
+                }
+            })
+            .then(response => {
+                commit("setMyCommentCocktails", response.myCommentCocktails)
+            })
+    },
+    getMyRateCocktails({ state, commit }) {
+        this.$axios
+            .$get("/restricted/myrates", {
+                headers: {
+                    Authorization: `Bearer ${state.token}`
+                }
+            })
+            .then(response => {
+                commit("setMyRateCocktails", response.myRateCocktails)
+            })
     },
 }
