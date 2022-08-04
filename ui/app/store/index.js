@@ -88,26 +88,26 @@ export const mutations = {
 }
 
 export const actions = {
-    async fetchCocktails(context) {
+    async fetchCocktails({ state, commit }) {
         const params = {
-            word: context.state.word,
-            base: context.state.base,
-            technique: context.state.technique,
-            taste: context.state.taste,
-            style: context.state.style,
-            alcohol_from: context.state.alcohol_from,
-            alcohol_to: context.state.alcohol_to,
-            top: context.state.top,
-            glass: context.state.glass,
-            page: context.state.page,
-            limit: context.state.limit
+            word: state.word,
+            base: state.base,
+            technique: state.technique,
+            taste: state.taste,
+            style: state.style,
+            alcohol_from: state.alcohol_from,
+            alcohol_to: state.alcohol_to,
+            top: state.top,
+            glass: state.glass,
+            page: state.page,
+            limit: state.limit
         }
         const response = await this.$axios.$get('/cocktails', { params }).catch(err => {
             return err.response
         })
-        context.commit("setCocktails", response.cocktails)
-        context.commit("setTotalPages", response.total_pages)
-        context.commit("setCurrentPage", response.current_page)
+        commit("setCocktails", response.cocktails)
+        commit("setTotalPages", response.total_pages)
+        commit("setCurrentPage", response.current_page)
     },
     async fetchCocktailDetail({ commit }, cocktail_id) {
         const response = await this.$axios.$get('/cocktails/' + cocktail_id).catch(err => {

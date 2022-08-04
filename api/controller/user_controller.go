@@ -62,7 +62,7 @@ func Login(c echo.Context) error {
 	defer sqlDB.Close()
 
 	user := models.User{}
-	db.Where("name = ?", u.Name).Preload("Comments").Preload("Likes").Preload("Rates").First(&user)
+	db.Where("name = ?", u.Name).First(&user)
 	if user.ID == 0 {
 		return c.JSON(http.StatusNotFound, echo.Map{
 			"message": "User not found",
@@ -94,7 +94,7 @@ func Login(c echo.Context) error {
 	})
 }
 
-func Restricted(c echo.Context) error {
+func GetUser(c echo.Context) error {
 	auth := c.Request().Header.Get("Authorization")
 	if auth == "" {
 		return c.JSON(http.StatusUnauthorized, echo.Map{
@@ -103,7 +103,7 @@ func Restricted(c echo.Context) error {
 	}
 	splitToken := strings.Split(auth, "Bearer ")
 	auth = splitToken[1]
-	user, err := jwt.ParseWithClaims(auth, &models.JwtCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
+	u, err := jwt.ParseWithClaims(auth, &models.JwtCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return []byte("secret"), nil
 	})
 	if err != nil {
@@ -111,9 +111,23 @@ func Restricted(c echo.Context) error {
 			"Message": "Token is wrong or Expire",
 		})
 	}
-	claims := user.Claims.(*models.JwtCustomClaims)
-	name := claims.Name
+	claims := u.Claims.(*models.JwtCustomClaims)
+
+	db, sqlDB, err := database.Connect()
+	if err != nil {
+		return c.String(http.StatusServiceUnavailable, "")
+	}
+	defer sqlDB.Close()
+
+	user := models.User{}
+	db.Where("name = ?", claims.Name).Preload("Comments").Preload("Likes").Preload("Rates").First(&user)
+	if user.ID == 0 {
+		return c.JSON(http.StatusNotFound, echo.Map{
+			"message": "User not found",
+		})
+	}
+
 	return c.JSON(http.StatusOK, echo.Map{
-		"name": name,
+		"user": user,
 	})
 }
