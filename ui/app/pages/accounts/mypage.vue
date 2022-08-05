@@ -44,7 +44,6 @@
                     elevation="0"
                     outlined
                 >
-                    
                     <v-tabs>
                         <v-tab
                             @change="changeFavoriteCocktails"
@@ -172,7 +171,7 @@
                                     align="center"
                                     class="mx-0 pb-3"
                                 >
-                                    
+                                    {{ cocktail.comment_body }}
                                 </v-row>
                             </v-card-text>
                         </v-card>
@@ -203,7 +202,7 @@
                                     class="mx-0 pb-3"
                                 >
                                     <v-rating
-                                        :value="4.5"
+                                        :value="cocktail.rating"
                                         color="amber"
                                         dense
                                         half-increments
@@ -211,7 +210,7 @@
                                         size="14"
                                     ></v-rating>
                                     <div class="grey--text ms-4">
-                                        4.5 (413)
+                                        Your Rate：{{ cocktail.rating }}
                                     </div>
                                 </v-row>
                             </v-card-text>
