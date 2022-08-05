@@ -66,7 +66,6 @@ export const actions = {
             })
             .then(response => {
                 commit("setUser", response.user)
-                console.log(response)
             })
     },
     getFavoriteCocktails({ state, commit }) {
@@ -89,6 +88,13 @@ export const actions = {
             })
             .then(response => {
                 commit("setMyCommentCocktails", response.myCommentCocktails)
+                for (const comment of state.user.Comments) {
+                    for (const cocktail of state.mycomment_cocktails) {
+                        if (comment.cocktail_id == cocktail.cocktail_id) {
+                            cocktail["comment_body"] = comment.body
+                        }
+                    }
+                }
             })
     },
     getMyRateCocktails({ state, commit }) {
@@ -100,6 +106,13 @@ export const actions = {
             })
             .then(response => {
                 commit("setMyRateCocktails", response.myRateCocktails)
+                for (const rate of state.user.Rates) {
+                    for (const cocktail of state.myrate_cocktails) {
+                        if (rate.cocktail_id == cocktail.cocktail_id) {
+                            cocktail["rating"] = rate.rating
+                        }
+                    }
+                }
             })
     },
 }
