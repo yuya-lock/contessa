@@ -264,6 +264,6 @@ export default {
         this.$store.dispatch("accounts/getFavoriteCocktails")
         this.$store.dispatch("accounts/getMyCommentCocktails")
         this.$store.dispatch("accounts/getMyRateCocktails")
-    }
+    },
 }
 </script>

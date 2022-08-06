@@ -136,6 +136,18 @@
             </v-col>
             <v-col cols="12" sm="7" md="8">
                 <v-card
+                    v-show="!showPagination"
+                    class="my-3"
+                    elevation="0"
+                    outlined
+                >
+                    <v-card-title style="color: #8E24AA;">LET'S ENJOY COCKTAIL LIFE</v-card-title>
+                    <v-card-subtitle style="color: #8E24AA;">ー Contessa makes your life colorful ー</v-card-subtitle>
+                    <v-card-text>
+                        Contessaでは、現在の気分によって様々なカクテルの検索ができます。
+                    </v-card-text>
+                </v-card>
+                <v-card
                     class="my-3"
                     elevation="0"
                     outlined
@@ -231,6 +243,7 @@
                         :value="current_page"
                         total-visible="7"
                         circle
+                        v-show="showPagination"
                     ></v-pagination>
                 </div>
             </v-col>
@@ -307,7 +320,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["cocktails", "total_pages", "current_page"]),
+        ...mapGetters(["cocktails", "total_pages", "current_page", "showPagination"]),
         word: {
             get() {
                 return this.$store.getters.word
@@ -414,7 +427,7 @@ export default {
             }
             this.inputs = JSON.parse(JSON.stringify(this.temporaryInputs))
             this.$store.commit("setPage")
-            this.$store.dispatch("fetchCocktails");
+            this.$store.dispatch("fetchCocktails")
         },
         cocktailDetail(cocktail_id) {
             this.$store.dispatch("fetchCocktailDetail", cocktail_id)
@@ -423,9 +436,7 @@ export default {
             this.initializeInputs()
         },
         changePage(pageNumber) {
-            if (pageNumber === this.current_page) {
-                return
-            }
+            if (pageNumber === this.current_page) return
             this.$store.dispatch("fetchCocktails")
         },
     }
