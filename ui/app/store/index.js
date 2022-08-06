@@ -15,6 +15,7 @@ export const state = () => ({
     cocktails: [],
     cocktail_detail: [],
     comment: [],
+    showPagination: false,
 })
 
 export const getters = {
@@ -34,6 +35,7 @@ export const getters = {
     cocktails: (state) => state.cocktails,
     cocktail_detail: (state) => state.cocktail_detail,
     comment: (state) => state.commnet,
+    showPagination: (state) => state.showPagination,
 }
 
 export const mutations = {
@@ -85,6 +87,9 @@ export const mutations = {
     setComment(state, comment) {
         state.comment = comment
     },
+    setShowPagination(state, showPagination) {
+        state.showPagination = showPagination
+    },
 }
 
 export const actions = {
@@ -102,19 +107,18 @@ export const actions = {
             page: state.page,
             limit: state.limit
         }
-        const response = await this.$axios.$get('/cocktails', { params }).catch(err => {
-            return err.response
-        })
+        const response = await this.$axios.$get('/cocktails', { params })
         commit("setCocktails", response.cocktails)
         commit("setTotalPages", response.total_pages)
         commit("setCurrentPage", response.current_page)
+        commit("setShowPagination", true)
     },
-    async fetchCocktailDetail({ commit }, cocktail_id) {
-        const response = await this.$axios.$get('/cocktails/' + cocktail_id).catch(err => {
-            return err.response
-        })
-        commit("setCocktailDetail", response)
-        console.log(response)
+    fetchCocktailDetail({ commit }, cocktail_id) {
+        this.$axios
+            .$get('/cocktails/' + cocktail_id)
+            .then(response => {
+                commit("setCocktailDetail", response)
+            })
     },
     createComment({ commit }, payload) {
         this.$axios
