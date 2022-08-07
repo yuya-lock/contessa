@@ -7,6 +7,8 @@
                 <nuxt />
             </v-container>
         </v-main>
+
+        <TheFooter />
     </v-app>
 </template>
 
