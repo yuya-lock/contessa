@@ -12,7 +12,7 @@
                             <v-btn
                                 elevation="0"
                                 outlined
-                                color="blue-grey lighten-2"
+                                color="blue"
                                 @click="createLike"
                             >
                                 <v-icon left>mdi-thumb-up</v-icon>
@@ -211,6 +211,9 @@ export default {
         ...mapGetters({
             cocktail: "cocktail_detail"
         }),
+        ...mapGetters("accounts", [
+            "favorite_cocktails",
+        ])
     },
     methods: {
         createComment() {
@@ -243,6 +246,13 @@ export default {
             })
             this.rating = 0
         },
+    },
+    created() {
+        for (const favorite_cocktail of this.favorite_cocktails) {
+            if (favorite_cocktail.cocktail_id == this.$route.params.id) {
+                this.showLike = true
+            }
+        }
     },
     beforeRouteEnter(to, from, next) {
         next((vm) => {
