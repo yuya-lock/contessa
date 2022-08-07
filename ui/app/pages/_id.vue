@@ -244,5 +244,15 @@ export default {
             this.rating = 0
         },
     },
+    beforeRouteEnter(to, from, next) {
+        next((vm) => {
+            if (vm.$store.getters['accounts/token']) {
+                next()
+            } else {
+                alert('カクテルの詳細情報を開く場合は、先にログインしてください。')
+                next("/")
+            }
+        })
+    },
 }
 </script>

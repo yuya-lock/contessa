@@ -270,6 +270,7 @@ export default {
             if (vm.$store.getters['accounts/token']) {
                 next()
             } else {
+                alert('マイページを開く場合は、先にログインしてください。')
                 next("/accounts/login")
             }
         })
