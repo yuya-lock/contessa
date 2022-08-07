@@ -120,7 +120,7 @@ export const actions = {
                 commit("setCocktailDetail", response)
             })
     },
-    createComment({ commit }, payload) {
+    createComment({ dispatch }, payload) {
         this.$axios
             .$post('/comment', {
                 body: payload.body,
@@ -128,30 +128,33 @@ export const actions = {
                 user_id: payload.user_id
             })
             .then(response => {
+                dispatch("accounts/getMyCommentCocktails", null, { root: true })
                 console.log(response);
             })
     },
-    createLike({ commit }, payload) {
+    createLike({ dispatch }, payload) {
         this.$axios
-            .$post('/like', {
+            .$post('/createlike', {
                 cocktail_id: payload.cocktail_id,
                 user_id: payload.user_id
             })
             .then(response => {
+                dispatch("accounts/getFavoriteCocktails", null, { root: true })
                 console.log(response);
             })
     },
-    deleteLike({ commit }, payload) {
+    deleteLike({ dispatch }, payload) {
         this.$axios
-            .$delete('/like', {
+            .$post('/deletelike', {
                 cocktail_id: payload.cocktail_id,
                 user_id: payload.user_id
             })
             .then(response => {
+                dispatch("accounts/getFavoriteCocktails", null, { root: true })
                 console.log(response);
             })
     },
-    createRate({ commit }, payload) {
+    createRate({ dispatch }, payload) {
         this.$axios
             .$post('/rate', {
                 rating: payload.rating,
@@ -159,6 +162,7 @@ export const actions = {
                 user_id: payload.user_id
             })
             .then(response => {
+                dispatch("accounts/getMyRateCocktails", null, { root: true })
                 console.log(response);
             })
     },
