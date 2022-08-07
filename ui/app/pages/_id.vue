@@ -212,11 +212,15 @@ export default {
             cocktail: "cocktail_detail"
         }),
         ...mapGetters("accounts", [
-            "favorite_cocktails",
+            "favorite_cocktails", "token",
         ])
     },
     methods: {
         createComment() {
+            if (!this.token) {
+                alert('カクテルのレビューを書く場合は、先にログインをしてください。')
+                return
+            }
             this.$store.dispatch("createComment", {
                 body: this.comment,
                 cocktail_id: this.cocktail.cocktail_id,
@@ -225,6 +229,10 @@ export default {
             this.comment = "";
         },
         createLike() {
+            if (!this.token) {
+                alert('MY COCKTAILの追加をする場合は、先にログインをしてください。')
+                return
+            }
             this.$store.dispatch("createLike", {
                 cocktail_id: this.cocktail.cocktail_id,
                 user_id: this.$store.getters["accounts/user"].ID
@@ -232,6 +240,10 @@ export default {
             this.showLike = true
         },
         deleteLike() {
+            if (!this.token) {
+                alert('MY COCKTAILの解除をする場合は、先にログインをしてください。')
+                return
+            }
             this.$store.dispatch("deleteLike", {
                 cocktail_id: this.cocktail.cocktail_id,
                 user_id: this.$store.getters["accounts/user"].ID
@@ -239,6 +251,10 @@ export default {
             this.showLike = false
         },
         createRate() {
+            if (!this.token) {
+                alert('カクテルを評価する場合は、先にログインをしてください。')
+                return
+            }
             this.$store.dispatch("createRate", {
                 rating: this.rating,
                 cocktail_id: this.cocktail.cocktail_id,
@@ -253,16 +269,6 @@ export default {
                 this.showLike = true
             }
         }
-    },
-    beforeRouteEnter(to, from, next) {
-        next((vm) => {
-            if (vm.$store.getters['accounts/token']) {
-                next()
-            } else {
-                alert('カクテルの詳細情報を開く場合は、先にログインしてください。')
-                next("/")
-            }
-        })
     },
 }
 </script>
