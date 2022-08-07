@@ -38,8 +38,8 @@ func Init() {
 	e.POST("/signup", controller.Signup)
 	e.POST("/login", controller.Login)
 	e.POST("/comment", controller.CreateCocktailComment)
-	e.POST("/like", controller.CreateCocktailLike)
-	e.DELETE("/like", controller.DeleteCocktailLike)
+	e.POST("/createlike", controller.CreateCocktailLike)
+	e.POST("/deletelike", controller.DeleteCocktailLike)
 	e.POST("/rate", controller.CreateCocktailRate)
 
 	config := middleware.JWTConfig{

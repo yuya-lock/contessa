@@ -13,7 +13,7 @@
                                 elevation="0"
                                 outlined
                                 color="blue"
-                                @click="createLike"
+                                @click="deleteLike"
                             >
                                 <v-icon left>mdi-thumb-up</v-icon>
                                 MY COCKTAILに追加済み
@@ -24,7 +24,7 @@
                                 elevation="0"
                                 outlined
                                 color="blue-grey lighten-2"
-                                @click="deleteLike"
+                                @click="createLike"
                             >
                                 <v-icon left>mdi-thumb-up</v-icon>
                                 MY COCKTAILに追加
@@ -212,7 +212,7 @@ export default {
             cocktail: "cocktail_detail"
         }),
         ...mapGetters("accounts", [
-            "favorite_cocktails", "token",
+            "favorite_cocktails", "token", "user",
         ])
     },
     methods: {
@@ -224,7 +224,7 @@ export default {
             this.$store.dispatch("createComment", {
                 body: this.comment,
                 cocktail_id: this.cocktail.cocktail_id,
-                user_id: this.$store.getters["accounts/user"].ID
+                user_id: this.user.ID
             })
             this.comment = "";
         },
@@ -235,7 +235,7 @@ export default {
             }
             this.$store.dispatch("createLike", {
                 cocktail_id: this.cocktail.cocktail_id,
-                user_id: this.$store.getters["accounts/user"].ID
+                user_id: this.user.ID
             })
             this.showLike = true
         },
@@ -246,7 +246,7 @@ export default {
             }
             this.$store.dispatch("deleteLike", {
                 cocktail_id: this.cocktail.cocktail_id,
-                user_id: this.$store.getters["accounts/user"].ID
+                user_id: this.user.ID
             })
             this.showLike = false
         },
@@ -258,7 +258,7 @@ export default {
             this.$store.dispatch("createRate", {
                 rating: this.rating,
                 cocktail_id: this.cocktail.cocktail_id,
-                user_id: this.$store.getters["accounts/user"].ID
+                user_id: this.user.ID
             })
             this.rating = 0
         },
