@@ -265,5 +265,14 @@ export default {
         this.$store.dispatch("accounts/getMyCommentCocktails")
         this.$store.dispatch("accounts/getMyRateCocktails")
     },
+    beforeRouteEnter(to, from, next) {
+        next((vm) => {
+            if (vm.$store.getters['accounts/token']) {
+                next()
+            } else {
+                next("/accounts/login")
+            }
+        })
+    },
 }
 </script>
