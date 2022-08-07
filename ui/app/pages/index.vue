@@ -128,7 +128,6 @@
                                 outlined
                                 color="primary"
                                 class="ml-4"
-                                disabled
                             >クリア</v-btn>
                         </v-row>
                     </v-card>
@@ -320,7 +319,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["cocktails", "total_pages", "current_page", "showPagination"]),
+        ...mapGetters(["cocktails", "total_pages", "current_page", "showPagination", "word", "base", "technique", "taste", "style", "alcohol_from", "alcohol_to", "top", "glass"]),
         word: {
             get() {
                 return this.$store.getters.word
@@ -403,28 +402,9 @@ export default {
         },
     },
     methods: {
-        initializeInputs() {
-            let defaultInputs = {
-                word: "",
-                base: "",
-                technique: "",
-                taste: "",
-                style: "",
-                alcohol_from: 0,
-                alcohol_to: 50,
-                top: "",
-                glass: "",
-                page: "",
-                limit: ""
-            }
-            this.inputs = JSON.parse(JSON.stringify(defaultInputs))
-            this.temporaryInputs = JSON.parse(JSON.stringify(defaultInputs))
-        },
         search() {
             this.$refs.form.validate()
-            if (!this.valid) {
-                return
-            }
+            if (!this.valid) return
             this.inputs = JSON.parse(JSON.stringify(this.temporaryInputs))
             this.$store.commit("setPage")
             this.$store.dispatch("fetchCocktails")
@@ -433,7 +413,15 @@ export default {
             this.$store.dispatch("fetchCocktailDetail", cocktail_id)
         },
         reset() {
-            this.initializeInputs()
+            this.word = ""
+            this.base = ""
+            this.technique = ""
+            this.taste = ""
+            this.style = ""
+            this.alcohol_from = 0
+            this.alcohol_to = 50
+            this.top = ""
+            this.glass = ""
         },
         changePage(pageNumber) {
             if (pageNumber === this.current_page) return
