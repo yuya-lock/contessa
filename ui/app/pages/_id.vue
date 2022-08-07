@@ -230,7 +230,7 @@ export default {
         },
         createLike() {
             if (!this.token) {
-                alert('MY COCKTAILの追加をする場合は、先にログインをしてください。')
+                alert('MY COCKTAILの追加/解除をする場合は、先にログインをしてください。')
                 return
             }
             this.$store.dispatch("createLike", {
@@ -241,7 +241,7 @@ export default {
         },
         deleteLike() {
             if (!this.token) {
-                alert('MY COCKTAILの解除をする場合は、先にログインをしてください。')
+                alert('MY COCKTAILの追加/解除をする場合は、先にログインをしてください。')
                 return
             }
             this.$store.dispatch("deleteLike", {

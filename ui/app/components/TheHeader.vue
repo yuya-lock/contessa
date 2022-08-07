@@ -1,53 +1,81 @@
 <template>
-    <v-app-bar
-        fixed
-        app
-    >
-        <v-app-bar-nav-icon></v-app-bar-nav-icon>
-        <nuxt-link to="/">
-            <v-img
-                src="/logo.png"
-                alt="logo"
-                max-height="40"
-                max-width="150"
-            ></v-img>
-        </nuxt-link>
-
-        <v-spacer></v-spacer>
-
-        <v-btn
-            class="ma-2 px-2"
-            outlined
-            color="indigo"
-            to="/accounts/signup"
-            nuxt
+    <div>
+        <v-app-bar
+            fixed
+            app
         >
-            SIGN UP
-        </v-btn>
-        <v-btn
-            class="ma-2 px-2"
-            outlined
-            color="indigo"
-            to="/accounts/login"
-            nuxt
-        >
-            LOG IN
-        </v-btn>
-
-        <v-avatar
-            color="indigo"
-            size="32"
-            class="ma-2"
-        >
-            <nuxt-link to="/accounts/mypage">
-                <v-icon dark>mdi-account-circle</v-icon>
+            <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+            <nuxt-link to="/">
+                <v-img
+                    src="/logo.png"
+                    alt="logo"
+                    max-height="40"
+                    max-width="150"
+                ></v-img>
             </nuxt-link>
-        </v-avatar>
-    </v-app-bar>
+        </v-app-bar>
+
+        <v-navigation-drawer
+            v-model="drawer"
+            absolute
+            temporary
+        >
+            <v-list
+                nav
+                dense
+            >
+                <v-list-item-group
+                    v-model="group"
+                    active-class="deep-purple--text text--accent-4"
+                >
+                    <v-list-item nuxt to="/">
+                        <v-list-item-icon>
+                            <v-icon>mdi-home</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title>Home</v-list-item-title>
+                    </v-list-item>
+
+                    <v-list-item nuxt to="/accounts/signup">
+                        <v-list-item-icon>
+                            <v-icon>mdi-account-plus</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title>Sign Up</v-list-item-title>
+                    </v-list-item>
+
+                    <v-list-item nuxt to="/accounts/login">
+                        <v-list-item-icon>
+                            <v-icon>mdi-account-lock-open</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title>Log In</v-list-item-title>
+                    </v-list-item>
+
+                    <v-list-item>
+                        <v-list-item-icon>
+                            <v-icon>mdi-account-lock</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title>Log Out</v-list-item-title>
+                    </v-list-item>
+
+                    <v-list-item nuxt to="/accounts/mypage">
+                        <v-list-item-icon>
+                            <v-icon>mdi-account-cog</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title>My Page</v-list-item-title>
+                    </v-list-item>
+                </v-list-item-group>
+            </v-list>
+        </v-navigation-drawer>
+    </div>
 </template>
 
 <script>
 export default {
+    data() {
+        return {
+            drawer: false,
+            group: null,
+        }
+    },
     computed: {
         xs () {
             return this.$vuetify.breakpoint.xs
