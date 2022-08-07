@@ -26,7 +26,7 @@ func CreateCocktailComment(c echo.Context) error {
 	db.Where("user_id = ? AND cocktail_id = ?", input.UserID, input.CocktailID).Find(&comment)
 	if comment.ID != 0 {
 		return c.JSON(http.StatusBadRequest, echo.Map{
-			"message": "This comment already exists.",
+			"message": "Your comment already exists.",
 		})
 	}
 	comment = models.Comment{

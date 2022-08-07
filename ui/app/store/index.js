@@ -130,9 +130,6 @@ export const actions = {
             .then(response => {
                 console.log(response);
             })
-            .catch(error => {
-                console.log(error);
-            });
     },
     createLike({ commit }, payload) {
         this.$axios
@@ -143,9 +140,16 @@ export const actions = {
             .then(response => {
                 console.log(response);
             })
-            .catch(error => {
-                console.log(error);
-            });
+    },
+    deleteLike({ commit }, payload) {
+        this.$axios
+            .$delete('/like', {
+                cocktail_id: payload.cocktail_id,
+                user_id: payload.user_id
+            })
+            .then(response => {
+                console.log(response);
+            })
     },
     createRate({ commit }, payload) {
         this.$axios
@@ -157,8 +161,5 @@ export const actions = {
             .then(response => {
                 console.log(response);
             })
-            .catch(error => {
-                console.log(error);
-            });
     },
 }
