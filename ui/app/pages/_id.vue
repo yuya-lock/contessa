@@ -8,21 +8,28 @@
                     outlined
                 >
                     <v-row class="mb-1" justify="end">
-                        <v-btn
-                            elevation="0"
-                            outlined
-                            color="blue-grey lighten-2"
-                            @click="createLike"
-                        >
-                            <div v-if="done">
+                        <div v-if="showLike">
+                            <v-btn
+                                elevation="0"
+                                outlined
+                                color="blue-grey lighten-2"
+                                @click="createLike"
+                            >
                                 <v-icon left>mdi-thumb-up</v-icon>
                                 MY COCKTAILに追加済み
-                            </div>
-                            <div v-else>
+                            </v-btn>
+                        </div>
+                        <div v-else>
+                            <v-btn
+                                elevation="0"
+                                outlined
+                                color="blue-grey lighten-2"
+                                @click="deleteLike"
+                            >
                                 <v-icon left>mdi-thumb-up</v-icon>
                                 MY COCKTAILに追加
-                            </div>
-                        </v-btn>
+                            </v-btn>
+                        </div>
                     </v-row>
                     <v-card-subtitle class="py-0">{{ cocktail.cocktail_digest }}</v-card-subtitle>
                     <v-card-title class="pt-0">{{ cocktail.cocktail_name }}</v-card-title>
@@ -195,7 +202,7 @@ import { mapGetters } from "vuex"
 export default {
     data() {
         return {
-            done: false,
+            showLike: false,
             comment: "",
             rating: 0,
         }
@@ -219,7 +226,14 @@ export default {
                 cocktail_id: this.cocktail.cocktail_id,
                 user_id: this.$store.getters["accounts/user"].ID
             })
-            this.done = !this.done;
+            this.showLike = true
+        },
+        deleteLike() {
+            this.$store.dispatch("deleteLike", {
+                cocktail_id: this.cocktail.cocktail_id,
+                user_id: this.$store.getters["accounts/user"].ID
+            })
+            this.showLike = false
         },
         createRate() {
             this.$store.dispatch("createRate", {
@@ -227,6 +241,7 @@ export default {
                 cocktail_id: this.cocktail.cocktail_id,
                 user_id: this.$store.getters["accounts/user"].ID
             })
+            this.rating = 0
         },
     },
 }
