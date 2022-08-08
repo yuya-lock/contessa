@@ -57,6 +57,10 @@ export const actions = {
                 this.$router.push("/accounts/login")
             });
     },
+    logout({ commit }) {
+        commit("updateToken", null)
+        this.$router.push("/")
+    },
     mypage({ state, commit }) {
         this.$axios
             .$get("/restricted/mypage", {

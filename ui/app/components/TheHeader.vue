@@ -50,7 +50,7 @@
                         <v-list-item-title>Log In</v-list-item-title>
                     </v-list-item>
 
-                    <v-list-item>
+                    <v-list-item @click="logout">
                         <v-list-item-icon>
                             <v-icon>mdi-account-lock</v-icon>
                         </v-list-item-icon>
@@ -81,6 +81,16 @@ export default {
         xs () {
             return this.$vuetify.breakpoint.xs
         }
-    }
+    },
+    methods: {
+        logout() {
+            if (confirm("ログアウトしますか？")) {
+                this.$store.dispatch("accounts/logout")
+                this.drawer = false
+            } else {
+                this.drawer = false
+            }
+        }
+    },
 }
 </script>
