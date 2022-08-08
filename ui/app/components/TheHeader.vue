@@ -19,6 +19,7 @@
             v-model="drawer"
             absolute
             temporary
+            style="position:fixed;"
         >
             <v-list
                 nav
