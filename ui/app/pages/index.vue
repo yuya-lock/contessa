@@ -167,7 +167,7 @@
                         <v-row>
                             <v-chip
                                 class="ma-2"
-                                color="blue darken-1"
+                                color="yellow darken-3"
                                 outlined
                             >
                                 #{{cocktail.base_name}}
