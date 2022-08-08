@@ -22,6 +22,9 @@ func CreateCocktailComment(c echo.Context) error {
 	defer sqlDB.Close()
 	database.InitDB()
 
+	cocktail := models.Cocktail{}
+	db.Where("cocktail_id = ?", input.CocktailID).First(&cocktail)
+
 	comment := models.Comment{}
 	db.Where("user_id = ? AND cocktail_id = ?", input.UserID, input.CocktailID).Find(&comment)
 	if comment.ID != 0 {
@@ -34,7 +37,7 @@ func CreateCocktailComment(c echo.Context) error {
 		UserID:     input.UserID,
 		CocktailID: input.CocktailID,
 	}
-	db.Create(&comment)
+	db.Model(&cocktail).Association("Comments").Append(&comment)
 
 	return c.JSON(http.StatusOK, echo.Map{
 		"message": "Your comment was created successfully",
@@ -99,6 +102,9 @@ func CreateCocktailLike(c echo.Context) error {
 	}
 	defer sqlDB.Close()
 
+	cocktail := models.Cocktail{}
+	db.Where("cocktail_id = ?", input.CocktailID).First(&cocktail)
+
 	like := models.Like{}
 	db.Where("user_id = ? AND cocktail_id = ?", input.UserID, input.CocktailID).First(&like)
 	if like.ID != 0 {
@@ -110,7 +116,7 @@ func CreateCocktailLike(c echo.Context) error {
 		UserID:     input.UserID,
 		CocktailID: input.CocktailID,
 	}
-	db.Create(&like)
+	db.Model(&cocktail).Association("Likes").Append(&like)
 
 	return c.JSON(http.StatusOK, echo.Map{
 		"message": "Your like was created successfully",
@@ -196,6 +202,9 @@ func CreateCocktailRate(c echo.Context) error {
 	}
 	defer sqlDB.Close()
 
+	cocktail := models.Cocktail{}
+	db.Where("cocktail_id = ?", input.CocktailID).First(&cocktail)
+
 	rate := models.Rate{}
 	db.Where("user_id = ? AND cocktail_id = ?", input.UserID, input.CocktailID).First(&rate)
 	if rate.ID != 0 {
@@ -208,7 +217,7 @@ func CreateCocktailRate(c echo.Context) error {
 		UserID:     input.UserID,
 		CocktailID: input.CocktailID,
 	}
-	db.Create(&rate)
+	db.Model(&cocktail).Association("Rates").Append(&rate)
 
 	return c.JSON(http.StatusOK, echo.Map{
 		"message": "Your rate was created successfully",

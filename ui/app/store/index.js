@@ -14,7 +14,6 @@ export const state = () => ({
     limit: 10,
     cocktails: [],
     cocktail_detail: [],
-    comment: [],
     showPagination: false,
 })
 
@@ -34,7 +33,6 @@ export const getters = {
     limit: (state) => state.limit,
     cocktails: (state) => state.cocktails,
     cocktail_detail: (state) => state.cocktail_detail,
-    comment: (state) => state.commnet,
     showPagination: (state) => state.showPagination,
 }
 
@@ -84,9 +82,6 @@ export const mutations = {
     setCocktailDetail(state, cocktail_detail) {
         state.cocktail_detail = cocktail_detail
     },
-    setComment(state, comment) {
-        state.comment = comment
-    },
     setShowPagination(state, showPagination) {
         state.showPagination = showPagination
     },
@@ -129,7 +124,7 @@ export const actions = {
             })
             .then(response => {
                 dispatch("accounts/getMyCommentCocktails", null, { root: true })
-                console.log(response);
+                this.$router.push("/accounts/mypage")
             })
     },
     createLike({ dispatch }, payload) {
@@ -140,7 +135,6 @@ export const actions = {
             })
             .then(response => {
                 dispatch("accounts/getFavoriteCocktails", null, { root: true })
-                console.log(response);
             })
     },
     deleteLike({ dispatch }, payload) {
@@ -151,7 +145,6 @@ export const actions = {
             })
             .then(response => {
                 dispatch("accounts/getFavoriteCocktails", null, { root: true })
-                console.log(response);
             })
     },
     createRate({ dispatch }, payload) {
@@ -163,7 +156,7 @@ export const actions = {
             })
             .then(response => {
                 dispatch("accounts/getMyRateCocktails", null, { root: true })
-                console.log(response);
+                this.$router.push("/accounts/mypage")
             })
     },
 }
