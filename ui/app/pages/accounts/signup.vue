@@ -129,11 +129,6 @@ export default {
                 age: this.age,
                 sex: this.sex
             })
-            this.name = "";
-            this.password = "";
-            this.job = "";
-            this.age = "";
-            this.sex = "";
         }
     }
 }

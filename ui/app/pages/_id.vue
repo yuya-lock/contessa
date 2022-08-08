@@ -41,7 +41,7 @@
                             class="mx-0 pt-3"
                         >
                             <v-rating
-                                :value="4.5"
+                                :value="ave_rating"
                                 color="amber"
                                 dense
                                 half-increments
@@ -49,7 +49,7 @@
                                 size="14"
                             ></v-rating>
                             <div class="grey--text ms-4">
-                                4.5 (413)
+                                {{ ave_rating }} ({{ ratings_count }})
                             </div>
                         </v-row>
                         <v-row
@@ -184,6 +184,15 @@
             <v-col cols="12" sm="7" md="8">
                 <v-card
                     class="my-3"
+                    elevation="1"
+                    color="indigo lighten-4"
+                    outlined
+                    tile
+                >
+                    <v-card-title style="font-weight: normal; color: #37474F;">User Reviews</v-card-title>
+                </v-card>
+                <v-card
+                    class="my-3"
                     elevation="0"
                     outlined
                     v-for="comment in cocktail.comments"
@@ -205,6 +214,8 @@ export default {
             showLike: false,
             comment: "",
             rating: 0,
+            ave_ratings: 0,
+            ratings_count: 0,
         }
     },
     computed: {
@@ -262,6 +273,9 @@ export default {
             })
             this.rating = 0
         },
+        roundHalf(num) {
+            return Math.round(num*2)/2;
+        },
     },
     created() {
         for (const favorite_cocktail of this.favorite_cocktails) {
@@ -269,6 +283,13 @@ export default {
                 this.showLike = true
             }
         }
+
+        let sum_ratings = 0
+        for (const rate of this.cocktail.rates) {
+            sum_ratings += rate.rating
+        }
+        this.ratings_count = (this.cocktail.rates).length
+        this.ave_rating = this.roundHalf(sum_ratings / this.ratings_count)
     },
 }
 </script>
