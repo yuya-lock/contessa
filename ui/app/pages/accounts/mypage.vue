@@ -76,26 +76,10 @@
                             </v-card-title>
                             <v-card-subtitle>{{ cocktail.cocktail_name_english }}</v-card-subtitle>
                             <v-card-text>
-                                <v-row
-                                    align="center"
-                                    class="mx-0 pb-3"
-                                >
-                                    <v-rating
-                                        :value="4.5"
-                                        color="amber"
-                                        dense
-                                        half-increments
-                                        readonly
-                                        size="14"
-                                    ></v-rating>
-                                    <div class="grey--text ms-4">
-                                        4.5 (413)
-                                    </div>
-                                </v-row>
                                 <v-row>
                                     <v-chip
                                         class="ma-2"
-                                        color="blue darken-1"
+                                        color="yellow darken-3"
                                         outlined
                                     >
                                         #{{cocktail.base_name}}
