@@ -57,7 +57,7 @@ resource "aws_db_instance" "mysql_standalone" {
 
   identifier = "${var.project}-${var.environment}-mysql-standalone"
 
-  username = "admin"
+  username = var.db_user
   password = random_string.db_password.result
 
   instance_class = "db.t2.micro"
@@ -70,11 +70,11 @@ resource "aws_db_instance" "mysql_standalone" {
   multi_az               = false
   availability_zone      = "ap-northeast-1a"
   db_subnet_group_name   = aws_db_subnet_group.mysql_standalone_subnetgroup.name
-  vpc_security_group_ids = [aws_security_group.db-sg.id]
+  vpc_security_group_ids = [aws_security_group.db_sg.id]
   publicly_accessible    = false
   port                   = 3306
 
-  name                 = "contessa"
+  name                 = var.db_name
   parameter_group_name = aws_db_parameter_group.mysql_standalone_parametergroup.name
   option_group_name    = aws_db_option_group.mysql_standalone_optiongroup.name
 
@@ -82,11 +82,17 @@ resource "aws_db_instance" "mysql_standalone" {
   backup_retention_period    = 7
   maintenance_window         = "Mon:05:00-Mon:08:00"
   auto_minor_version_upgrade = false
-  
-  deletion_protection        = true
-  skip_final_snapshot        = false
+
+  deletion_protection = true
+  skip_final_snapshot = false
 
   apply_immediately = false
+
+  enabled_cloudwatch_logs_exports = [
+    "error",
+    "general",
+    "slowquery"
+  ]
 
   tags = {
     Name    = "${var.project}-${var.environment}-mysql-standalone"
