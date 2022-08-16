@@ -7,6 +7,6 @@ WORKDIR /go/src/api
 COPY ./api .
 RUN go mod download
 
-EXPOSE 8080
+EXPOSE 8000
 
 CMD ["air"]

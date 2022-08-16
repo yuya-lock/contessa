@@ -41,5 +41,5 @@ func Init() {
 	r.GET("/mycomments", controller.GetMyComments)
 	r.GET("/myrates", controller.GetMyRates)
 
-	e.Logger.Fatal(e.Start(":8080"))
+	e.Logger.Fatal(e.Start(":8000"))
 }

@@ -67,7 +67,7 @@ export default {
   },
 
   axios: {
-    baseURL: 'http://localhost:8080'
+    baseURL: 'https://contessa-cocktail.site'
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
