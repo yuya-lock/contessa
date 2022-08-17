@@ -38,36 +38,6 @@ resource "aws_lb_listener" "alb_listener_https" {
   }
 }
 
-# resource "aws_lb_listener_rule" "http_rule" {
-#   listener_arn = aws_lb_listener.alb_listener_http.arn
-
-#   action {
-#     type             = "forward"
-#     target_group_arn = aws_lb_target_group.lb_target_group.id
-#   }
-
-#   condition {
-#     path_pattern {
-#       values = ["*"]
-#     }
-#   }
-# }
-
-# resource "aws_lb_listener_rule" "https_rule" {
-#   listener_arn = aws_lb_listener.alb_listener_https.arn
-
-#   action {
-#     type             = "forward"
-#     target_group_arn = aws_lb_target_group.lb_target_group.id
-#   }
-
-#   condition {
-#     path_pattern {
-#       values = ["*"]
-#     }
-#   }
-# }
-
 # ------------------------------
 # target group
 # ------------------------------
