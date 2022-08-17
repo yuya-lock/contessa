@@ -67,7 +67,7 @@ export default {
   },
 
   axios: {
-    baseURL: 'https://contessa-cocktail.site'
+    baseURL: 'https://dev-elb.contessa-cocktail.site'
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
