@@ -15,6 +15,8 @@ export const state = () => ({
     cocktails: [],
     cocktail_detail: [],
     showPagination: false,
+    ave_rating: 0,
+    ratings_count: 0,
 })
 
 export const getters = {
@@ -34,6 +36,8 @@ export const getters = {
     cocktails: (state) => state.cocktails,
     cocktail_detail: (state) => state.cocktail_detail,
     showPagination: (state) => state.showPagination,
+    ave_rating: (state) => state.ave_rating,
+    ratings_count: (state) => state.ratings_count,
 }
 
 export const mutations = {
@@ -85,6 +89,12 @@ export const mutations = {
     setShowPagination(state, showPagination) {
         state.showPagination = showPagination
     },
+    setAveRating(state, ave_rating) {
+        state.ave_rating = ave_rating
+    },
+    setRatingsCount(state, ratings_count) {
+        state.ratings_count = ratings_count
+    },
 }
 
 export const actions = {
@@ -108,11 +118,22 @@ export const actions = {
         commit("setCurrentPage", response.current_page)
         commit("setShowPagination", true)
     },
-    fetchCocktailDetail({ commit }, cocktail_id) {
+    fetchCocktailDetail({ state, commit }, cocktail_id) {
         this.$axios
             .$get('/cocktails/' + cocktail_id)
             .then(response => {
                 commit("setCocktailDetail", response)
+
+                let sum_ratings = 0
+                for (const rate of state.cocktail_detail.rates) {
+                    sum_ratings += rate.rating
+                }
+                commit("setRatingsCount", (state.cocktail_detail.rates).length)
+                if (state.ratings_count === 0) {
+                    commit("setAveRating", 0)
+                } else {
+                    commit("setAveRating", Math.round((sum_ratings / state.ratings_count) * 2)/2)
+                }
             })
     },
     createComment({ dispatch }, payload) {

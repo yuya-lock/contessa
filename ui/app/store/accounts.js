@@ -42,6 +42,9 @@ export const actions = {
             .then(response => {
                 commit("updateToken", response.token)
                 this.$router.push("/accounts/mypage")
+            })
+            .catch(error => {
+                alert('ユーザー名またはパスワードが違います。もう一度ログインして下さい。')
             });
     },
     signup({ commit }, authData) {
@@ -55,6 +58,9 @@ export const actions = {
             })
             .then(response => {
                 this.$router.push("/accounts/login")
+            })
+            .catch(error => {
+                alert('そのユーザー名は既に存在しているか、有効なパスワード(8文字以上)が入力されていません。お手数ですが、もう一度入力して下さい。')
             });
     },
     logout({ commit }) {
