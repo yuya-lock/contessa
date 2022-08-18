@@ -214,13 +214,13 @@ export default {
             showLike: false,
             comment: "",
             rating: 0,
-            ave_ratings: 0,
-            ratings_count: 0,
         }
     },
     computed: {
         ...mapGetters({
-            cocktail: "cocktail_detail"
+            cocktail: "cocktail_detail",
+            ave_rating: "ave_rating",
+            ratings_count: "ratings_count",
         }),
         ...mapGetters("accounts", [
             "favorite_cocktails", "token", "user",
@@ -273,9 +273,6 @@ export default {
             })
             this.rating = 0
         },
-        roundHalf(num) {
-            return Math.round(num*2)/2;
-        },
     },
     created() {
         for (const favorite_cocktail of this.favorite_cocktails) {
@@ -283,13 +280,6 @@ export default {
                 this.showLike = true
             }
         }
-
-        let sum_ratings = 0
-        for (const rate of this.cocktail.rates) {
-            sum_ratings += rate.rating
-        }
-        this.ratings_count = (this.cocktail.rates).length
-        this.ave_rating = this.roundHalf(sum_ratings / this.ratings_count)
     },
 }
 </script>
