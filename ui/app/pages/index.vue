@@ -143,7 +143,7 @@
                     <v-card-title style="color: #8E24AA;">LET'S ENJOY COCKTAIL LIFE</v-card-title>
                     <v-card-subtitle style="color: #8E24AA;">ー Contessa makes your life colorful ー</v-card-subtitle>
                     <v-card-text>
-                        Contessaでは、現在の気分によって様々なカクテルの検索ができます。
+                        Contessaでは、その日その時の気分に応じて、条件を入力し様々なカクテルの検索を行うことができます。
                     </v-card-text>
                 </v-card>
                 <v-card
