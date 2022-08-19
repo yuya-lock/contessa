@@ -7,6 +7,11 @@
                     elevation="0"
                     outlined
                 >
+                    <v-card-text>
+                        ＜採用担当者様へ＞ テストユーザー用のユーザー名/パスワードはどちらも
+                        <span style="color: red;">空欄</span>
+                        にてログイン可能です。
+                    </v-card-text>
                     <v-card-subtitle>
                         まだ登録がお済みでない方は、
                         <span @click="signUpForm" style="color: blue; text-decoration: underline;">こちら</span>
