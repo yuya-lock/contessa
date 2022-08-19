@@ -1,6 +1,6 @@
 # [Contessa](https://contessa-cocktail.netlify.app)
 Contessaでは、その日その時の気分に応じて、条件を入力し様々なカクテルの検索を行うことができます。  
-URL: [https://contessa-cocktail.netlify.app](https://contessa-cocktail.netlify.app)
+*URL*: [https://contessa-cocktail.netlify.app](https://contessa-cocktail.netlify.app)
 
 #### 使用技術
 ・フロントエンド：Nuxt.js, CSS, Vuetify  
