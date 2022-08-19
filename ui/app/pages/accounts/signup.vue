@@ -7,6 +7,11 @@
                     elevation="0"
                     outlined
                 >
+                    <v-card-text>
+                        ＜採用担当者様へ＞ テストユーザーとしてログインいただけますので、
+                        <span @click="logInForm" style="color: blue; text-decoration: underline;">こちら</span>
+                        からログインへとお進み下さい。
+                    </v-card-text>
                     <v-card-title>新規登録</v-card-title>
                     <v-form
                         ref="form"
@@ -121,6 +126,9 @@ export default {
         }
     },
     methods: {
+        logInForm() {
+            this.$router.push("/accounts/login")
+        },
         signup() {
             this.$store.dispatch("accounts/signup", {
                 name: this.name,
