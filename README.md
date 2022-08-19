@@ -5,7 +5,7 @@ Contessaでは、その日その時の気分に応じて、条件を入力し様
 #### 使用技術
 ・フロントエンド：Nuxt.js(2.15.8), CSS, Vuetify  
 ・バックエンド(API)：Go(1.18.1), Echo, Gorm, Air  
-・インフラ：Docker(20.10.13), docker-compose(1.29.2), MySQL(8.0.28), AWS(ALB, EC2, Route53, ACM, VPC, IAM)  
+・インフラ：Docker(20.10.13), docker-compose(1.29.2), Netrify, MySQL(8.0.28), AWS(ALB, EC2, Route53, ACM, VPC, IAM)  
 
 #### 機能一覧
 ・JWT認証(新規登録, ログイン, ログアウト)  
