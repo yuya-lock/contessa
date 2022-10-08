@@ -9,4 +9,4 @@ RUN go mod download
 
 EXPOSE 8000
 
-CMD ["air"]
+CMD ["go", "run", "main.go"]

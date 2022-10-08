@@ -5,6 +5,8 @@ services:
     build:
       context: .
       dockerfile: ./docker/golang/Dockerfile
+    ports:
+      - "8000:8000"
     restart: always
     volumes:
       - ./api:/go/src/api/
@@ -14,11 +16,17 @@ services:
 
   mysql:
     image: mysql:8.0.28
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     restart: always
+    command: mysqld --lower_case_table_names=1
+    ports:
+      - "3306:3306"
     volumes:
-      - ./mysql/data:/var/lib/mysql
       - ./mysql/conf.d/my.cnf:/etc/mysql/conf.d/my.cnf
       - ./mysql/initdb.d:/docker-entrypoint-initdb.d
-    env_file:
-      - ./mysql/.env
+    environment:
+      MYSQL_ROOT_PASSWORD: yuya1009
+      MYSQL_DATABASE: zinnia_db
+      MYSQL_USER: yuya
+      MYSQL_PASSWORD: yuya1009
+      TZ: Asia/Tokyo
+      BIND-ADDRESS: 0.0.0.0
